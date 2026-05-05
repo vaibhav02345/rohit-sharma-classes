@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Contact | Rohit Sharma Classes</title>
+  <meta name="description" content="Get in touch with Rohit Sharma Classes. Book a free demo for ICSE & CBSE coaching in Physics, Chemistry & Maths."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .faculty-contact-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:16px}
+    .fac-row{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+    .fac-av{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;color:#fff;flex-shrink:0}
+    .fac-av.ph{background:linear-gradient(135deg,#1d4ed8,#4338ca)}
+    .fac-av.ch{background:linear-gradient(135deg,#059669,#10b981)}
+    .fac-av.ma{background:linear-gradient(135deg,#d97706,#f97316)}
+    .fac-info strong{display:block;font-size:.92rem;font-weight:700}
+    .fac-info small{font-size:.78rem;color:var(--text3)}
+    .fac-email{font-size:.82rem;color:var(--blue-light);margin-top:4px}
+    .hours-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:16px}
+    .hours-card h4{font-size:.95rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+    .hours-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:.85rem}
+    .hours-row:last-child{border-bottom:none}
+    .hours-row .time{color:var(--text2)}
+    .hours-row .closed{color:#ef4444;font-weight:600}
+    .map-box{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;position:relative;min-height:200px;display:flex;align-items:center;justify-content:center}
+    .map-placeholder{text-align:center;padding:32px}
+    .map-placeholder .map-icon{font-size:2.5rem;margin-bottom:10px}
+    .map-placeholder p{font-size:.85rem;color:var(--text2);margin-bottom:12px}
+    .map-link{color:var(--blue-light);font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:4px;justify-content:center}
+    .contact-side{display:flex;flex-direction:column;gap:16px}
+    .direct-contact-header{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+  </style>
+</head>
+<body>
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">Rohit Sharma Classes</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="icse.html">ICSE</a></li>
+      <li><a href="cbse.html">CBSE</a></li>
+      <li><a href="courses.html">Courses</a></li>
+      <li><a href="wall-of-fame.html">Wall of Fame</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+      <li><a href="contact.html" class="nav-cta">Enroll Now</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-header" style="text-align:left;padding-bottom:40px">
+  <div class="container">
+    <h1>Get in <span class="gradient-text">Touch</span></h1>
+    <p>Connect with us to start your journey towards academic excellence. Our team is here to guide you through ICSE and CBSE curricula.</p>
+  </div>
+</div>
+
+<section class="section contact-section" id="contact" style="padding-top:40px">
+  <div class="container">
+    <div class="contact-grid">
+      <!-- Form -->
+      <form class="contact-form" id="contactForm">
+        <div class="form-row">
+          <div class="form-group"><label for="cName">Full Name</label><input type="text" id="cName" placeholder="John Doe" required/></div>
+          <div class="form-group"><label for="cEmail">Email Address</label><input type="email" id="cEmail" placeholder="john@example.com" required/></div>
+        </div>
+        <div class="form-group">
+          <label for="cGrade">Current Grade</label>
+          <select id="cGrade">
+            <option>Class 9th (ICSE/CBSE)</option>
+            <option>Class 10th (ICSE/CBSE)</option>
+            <option>Class 11th (ICSE/CBSE)</option>
+            <option>Class 12th (ICSE/CBSE)</option>
+          </select>
+        </div>
+        <div class="form-group"><label for="cPhone">Phone Number</label><input type="tel" id="cPhone" placeholder="+91 98765 43210"/></div>
+        <div class="form-group"><label for="cMsg">Message</label><textarea id="cMsg" rows="4" placeholder="How can we help you?"></textarea></div>
+        <button type="submit" class="btn-blue full-btn" id="contactSubmitBtn">Send Inquiry</button>
+      </form>
+
+      <!-- Side Info -->
+      <div class="contact-side">
+        <div class="faculty-contact-card">
+          <div class="direct-contact-header">👥 Direct Faculty Contact</div>
+          <div class="fac-row">
+            <div class="fac-av ph">RS</div>
+            <div class="fac-info">
+              <strong>Prof. Rohit Sharma</strong>
+              <small>Academic Director &amp; Physics Head</small>
+              <div class="fac-email">rohit@sharmaclasses.edu</div>
+            </div>
+          </div>
+          <div class="fac-row">
+            <div class="fac-av ch">AR</div>
+            <div class="fac-info">
+              <strong>Ms. Aditi Rana</strong>
+              <small>Head of Chemistry Sciences</small>
+              <div class="fac-email">aditi@sharmaclasses.edu</div>
+            </div>
+          </div>
+          <div class="fac-row" style="margin-bottom:0">
+            <div class="fac-av ma">PK</div>
+            <div class="fac-info">
+              <strong>Mr. Pawan Kumar</strong>
+              <small>Head of Mathematics</small>
+              <div class="fac-email">pawan@sharmaclasses.edu</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hours-card">
+          <h4>🕐 Visit Us</h4>
+          <div class="hours-row"><span>Monday – Friday</span><span class="time">10:00 AM – 08:00 PM</span></div>
+          <div class="hours-row"><span>Saturday</span><span class="time">09:00 AM – 06:00 PM</span></div>
+          <div class="hours-row"><span>Sunday</span><span class="closed">Closed</span></div>
+          <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);font-size:.82rem;color:var(--text2)">
+            📍 102-105 Excellence Plaza, Academic Square,<br/>New Delhi – 110001
+          </div>
+        </div>
+
+        <div class="map-box">
+          <div class="map-placeholder">
+            <div class="map-icon">🗺️</div>
+            <p>Located in the heart of Delhi's educational district. State-of-the-art classrooms and study spaces.</p>
+            <a href="https://maps.google.com" target="_blank" class="map-link">Open in Google Maps ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Quick Contact Cards -->
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="contact-cards">
+      <div class="contact-card reveal"><div class="contact-icon">📞</div><h4>Call Us</h4><p>+91 98765 43210<br/>Mon–Sat, 9 AM – 7 PM</p></div>
+      <div class="contact-card reveal"><div class="contact-icon">✉️</div><h4>Email Us</h4><p>hello@sharmaclasses.edu<br/>support@sharmaclasses.edu</p></div>
+      <div class="contact-card reveal"><div class="contact-icon">💬</div><h4>WhatsApp</h4><p>+91 98765 43210<br/>Quick replies guaranteed</p></div>
+      <div class="contact-card reveal"><div class="contact-icon">📍</div><h4>Visit Us</h4><p>102-105 Excellence Plaza<br/>New Delhi – 110001</p></div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">Rohit Sharma Classes</a>
+        <p>Empowering students of Classes 9–12 in Physics, Chemistry &amp; Maths for ICSE &amp; CBSE since 2010.</p>
+        <div class="social-links"><a href="#">📸</a><a href="#">▶️</a><a href="#">💬</a><a href="#">✈️</a></div>
+      </div>
+      <div class="footer-links"><h4>Curriculum</h4><ul><li><a href="icse.html">ICSE Curriculum</a></li><li><a href="cbse.html">CBSE Curriculum</a></li><li><a href="courses.html">All Courses</a></li></ul></div>
+      <div class="footer-links"><h4>Institute</h4><ul><li><a href="wall-of-fame.html">Wall of Fame</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer-links"><h4>Newsletter</h4>
+        <p style="font-size:.82rem;color:var(--text2);margin-bottom:10px">Subscribe for academic tips and course updates.</p>
+        <div style="display:flex;gap:8px">
+          <input type="email" id="nlEmail" placeholder="Email" style="flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--text);font-size:.82rem;font-family:'Outfit',sans-serif;outline:none"/>
+          <button onclick="document.getElementById('nlEmail').value='';showToast('✅ Subscribed!')" style="background:var(--blue);color:#fff;border:none;border-radius:8px;padding:9px 16px;cursor:pointer;font-family:'Outfit',sans-serif;font-weight:700">Join</button>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>© 2025 Rohit Sharma Classes. All rights reserved.</p><div class="footer-bottom-links"><a href="#">Privacy Policy</a><a href="#">Terms of Use</a></div></div>
+  </div>
+</footer>
+<div class="toast" id="toast"></div>
+<script src="script.js"></script>
+</body>
+</html>
