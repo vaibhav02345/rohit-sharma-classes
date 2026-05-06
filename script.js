@@ -44,8 +44,7 @@ if (track) {
 
   function goTo(idx) {
     currentIdx = (idx + cards.length) % cards.length;
-    const cardWidth = cards[0].offsetWidth + 22;
-    track.style.transform = `translateX(-${currentIdx * cardWidth}px)`;
+    track.style.transform = `translateX(-${currentIdx * 100}%)`;
     document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentIdx));
   }
 
@@ -111,7 +110,7 @@ if (contactForm) {
 }
 
 // ===== ACTIVE NAV HIGHLIGHT =====
-const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+const currentPage = window.location.pathname.split('/').pop() || 'home.html';
 document.querySelectorAll('.nav-links a').forEach(a => {
   const href = a.getAttribute('href');
   if (href === currentPage) a.classList.add('active');
