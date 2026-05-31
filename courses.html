@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Courses | Rohit Sharma Classes</title>
-  <meta name="description" content="ICSE & CBSE Physics, Chemistry, Maths courses for Classes 9–12 by Rohit Sharma Classes."/>
+  <meta name="description" content="ICSE & CBSE Physics & Science courses for Classes 9–12 by Rohit Sharma Classes."/>
+  <link rel="icon" type="image/png" href="logo.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
@@ -11,7 +12,7 @@
 <body>
 <nav class="navbar" id="navbar">
   <div class="nav-container">
-    <a href="home.html" class="nav-logo"><img src="logo.png" alt="RSC Logo"/>RSC</a>
+    <a href="home.html" class="nav-logo"><img src="logo.png" alt="Rohit Sharma Classes Logo"/>Rohit Sharma Classes</a>
     <ul class="nav-links" id="navLinks">
       <li><a href="home.html">Home</a></li>
       <li class="nav-dropdown">
@@ -33,7 +34,7 @@
   <div class="container">
     <span class="section-tag">Excellence in Education</span>
     <h1>Academic <span class="gradient-text">Curriculum</span></h1>
-    <p>Master Physics, Chemistry &amp; Maths for ICSE &amp; CBSE boards through expert-led coaching designed for top scores.</p>
+    <p>Expert Physics coaching for Classes 11–12 and complete Science &amp; Maths for Classes 9–10 across ICSE &amp; CBSE boards.</p>
   </div>
 </div>
 
@@ -45,13 +46,44 @@
       <button class="tab-btn" data-board="icse" id="tab-icse">ICSE</button>
     </div>
 
-    <!-- ICSE Section -->
+    <!-- CLASS 11 & 12 — PHYSICS -->
     <div style="margin-bottom:48px">
       <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--border)">
-        <h2 style="font-size:1.4rem;font-weight:800">ICSE Curriculum (Class 9–12)</h2>
-        <span style="background:rgba(6,182,212,.12);color:var(--cyan);border:1px solid rgba(6,182,212,.3);padding:3px 12px;border-radius:6px;font-size:.75rem;font-weight:700">ACADEMIC RIGOR</span>
+        <h2 style="font-size:1.4rem;font-weight:800">Class 11 &amp; 12 — Physics</h2>
+        <span style="background:rgba(13,148,136,.12);color:var(--teal);border:1px solid rgba(13,148,136,.25);padding:3px 12px;border-radius:6px;font-size:.75rem;font-weight:700">ADVANCED</span>
       </div>
       <div class="courses-grid" id="coursesGrid">
+        <div class="course-card reveal featured" data-board="cbse">
+          <div class="featured-badge">⭐ Most Popular</div>
+          <div class="course-card-header physics-bg"><span class="subject-icon">⚛️</span><div class="course-board-tag">CBSE • Class 11 &amp; 12</div></div>
+          <div class="course-card-body">
+            <h3>CBSE Physics — Advanced</h3>
+            <p>Laws of Motion, Electromagnetism, Optics &amp; Modern Physics. Board + JEE Mains preparation by Rohit Sharma Sir.</p>
+            <ul class="course-features"><li>✓ Board + JEE Prep</li><li>✓ Weekly Mock Tests</li><li>✓ Previous Year Papers</li></ul>
+            <div class="course-footer"><span class="price">₹1,999<span>/mo</span></span><a href="contact.html" class="btn-card">Enroll</a></div>
+          </div>
+        </div>
+        <div class="course-card reveal featured" data-board="icse">
+          <div class="featured-badge">⭐ Board Special</div>
+          <div class="course-card-header physics-bg"><span class="subject-icon">⚛️</span><div class="course-board-tag icse-tag">ISC • Class 11 &amp; 12</div></div>
+          <div class="course-card-body">
+            <h3>ISC Physics — Advanced</h3>
+            <p>Electrostatics, Magnetism, Optics, Modern Physics &amp; full ISC board exam mastery by Rohit Sharma Sir.</p>
+            <ul class="course-features"><li>✓ ISC Board Pattern</li><li>✓ 10 Mock Exams</li><li>✓ Board Papers</li></ul>
+            <div class="course-footer"><span class="price">₹1,999<span>/mo</span></span><a href="contact.html" class="btn-card">Enroll</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLASS 9 & 10 — SCIENCE & MATHS -->
+    <div>
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--border)">
+        <h2 style="font-size:1.4rem;font-weight:800">Class 9 &amp; 10 — Science &amp; Maths</h2>
+        <span style="background:rgba(6,182,212,.12);color:var(--cyan);border:1px solid rgba(6,182,212,.3);padding:3px 12px;border-radius:6px;font-size:.75rem;font-weight:700">FOUNDATION</span>
+      </div>
+      <div class="courses-grid">
+        <!-- ICSE 9&10 -->
         <div class="course-card reveal" data-board="icse">
           <div class="course-card-header physics-bg"><span class="subject-icon">⚛️</span><div class="course-board-tag icse-tag">ICSE • Class 9 &amp; 10</div></div>
           <div class="course-card-body">
@@ -65,8 +97,17 @@
           <div class="course-card-header chemistry-bg"><span class="subject-icon">🧪</span><div class="course-board-tag icse-tag">ICSE • Class 9 &amp; 10</div></div>
           <div class="course-card-body">
             <h3>ICSE Chemistry</h3>
-            <p>Periodic Table, Chemical Reactions, Acids &amp; Bases with Aditi Ma'am's legendary reaction maps.</p>
+            <p>Periodic Table, Chemical Reactions, Acids &amp; Bases with structured reaction maps and lab guides.</p>
             <ul class="course-features"><li>✓ ICSE-Focused Curriculum</li><li>✓ Lab Guide Included</li><li>✓ SQP Practice</li></ul>
+            <div class="course-footer"><span class="price">₹1,499<span>/mo</span></span><a href="contact.html" class="btn-card">Enroll</a></div>
+          </div>
+        </div>
+        <div class="course-card reveal" data-board="icse">
+          <div class="course-card-header" style="background:linear-gradient(135deg,rgba(16,185,129,.25),rgba(5,150,105,.12))"><span class="subject-icon">🧬</span><div class="course-board-tag icse-tag">ICSE • Class 9 &amp; 10</div></div>
+          <div class="course-card-body">
+            <h3>ICSE Biology</h3>
+            <p>Cell Biology, Human Physiology, Plant Biology &amp; Ecology — ICSE board focused with diagram mastery.</p>
+            <ul class="course-features"><li>✓ ICSE Pattern Coverage</li><li>✓ Diagram Practice</li><li>✓ Chapter Tests</li></ul>
             <div class="course-footer"><span class="price">₹1,499<span>/mo</span></span><a href="contact.html" class="btn-card">Enroll</a></div>
           </div>
         </div>
@@ -74,64 +115,18 @@
           <div class="course-card-header maths-bg"><span class="subject-icon">📐</span><div class="course-board-tag icse-tag">ICSE • Class 9 &amp; 10</div></div>
           <div class="course-card-body">
             <h3>ICSE Mathematics</h3>
-            <p>Algebra, Geometry, Trigonometry &amp; Statistics with Pawan Sir's structured problem-solving approach.</p>
+            <p>Algebra, Geometry, Trigonometry &amp; Statistics with structured problem-solving approach for ICSE board.</p>
             <ul class="course-features"><li>✓ ICSE Pattern Coverage</li><li>✓ Formula Sheets</li><li>✓ Weekly Tests</li></ul>
             <div class="course-footer"><span class="price">₹1,299<span>/mo</span></span><a href="contact.html" class="btn-card">Enroll</a></div>
           </div>
         </div>
-        <div class="course-card reveal" data-board="icse">
-          <div class="course-card-header physics-bg"><span class="subject-icon">⚛️</span><div class="course-board-tag icse-tag">ICSE • Class 11 &amp; 12</div></div>
-          <div class="course-card-body">
-            <h3>ISC Physics</h3>
-            <p>Electromagnetism, Optics, Modern Physics &amp; full ISC board exam preparation by Rohit Sharma Sir.</p>
-            <ul class="course-features"><li>✓ ISC Board Pattern</li><li>✓ Previous Year Papers</li><li>✓ Mock Tests</li></ul>
-            <div class="course-footer"><span class="price">₹1,999<span>/mo</span></span><a href="contact.html" class="btn-card">Enroll</a></div>
-          </div>
-        </div>
-        <div class="course-card reveal featured" data-board="icse">
-          <div class="featured-badge">⭐ Most Popular</div>
-          <div class="course-card-header chemistry-bg"><span class="subject-icon">🧪</span><div class="course-board-tag icse-tag">ICSE • Class 11 &amp; 12</div></div>
-          <div class="course-card-body">
-            <h3>ISC Chemistry</h3>
-            <p>Organic, Inorganic &amp; Physical Chemistry with Aditi Ma'am's ISC-specific approach and shortcut strategies.</p>
-            <ul class="course-features"><li>✓ ISC Pattern Tests</li><li>✓ Organic Reaction Charts</li><li>✓ 1-on-1 Doubt Sessions</li></ul>
-            <div class="course-footer"><span class="price">₹1,999<span>/mo</span></span><a href="contact.html" class="btn-card">Enroll</a></div>
-          </div>
-        </div>
-        <div class="course-card reveal" data-board="icse">
-          <div class="course-card-header maths-bg"><span class="subject-icon">📐</span><div class="course-board-tag icse-tag">ICSE • Class 11 &amp; 12</div></div>
-          <div class="course-card-body">
-            <h3>ISC Mathematics</h3>
-            <p>Calculus, Matrices, Probability &amp; Vectors — complete ISC curriculum with Pawan Kumar Sir.</p>
-            <ul class="course-features"><li>✓ ISC Board Coverage</li><li>✓ Daily Practice Problems</li><li>✓ Monthly Assessments</li></ul>
-            <div class="course-footer"><span class="price">₹1,999<span>/mo</span></span><a href="contact.html" class="btn-card">Enroll</a></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CBSE Section -->
-    <div>
-      <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--border)">
-        <h2 style="font-size:1.4rem;font-weight:800">CBSE Curriculum (Class 9–12)</h2>
-        <span style="background:rgba(13,148,136,.12);color:var(--teal);border:1px solid rgba(13,148,136,.25);padding:3px 12px;border-radius:6px;font-size:.75rem;font-weight:700">HOLISTIC LEARNING</span>
-      </div>
-      <div class="courses-grid" id="cbseGrid">
+        <!-- CBSE 9&10 -->
         <div class="course-card reveal" data-board="cbse">
-          <div class="course-card-header physics-bg"><span class="subject-icon">⚛️</span><div class="course-board-tag">CBSE • Class 9 &amp; 10</div></div>
+          <div class="course-card-header physics-bg"><span class="subject-icon">🔬</span><div class="course-board-tag">CBSE • Class 9 &amp; 10</div></div>
           <div class="course-card-body">
-            <h3>CBSE Physics</h3>
-            <p>Motion, Force, Light, Sound &amp; Electricity. NCERT + Exemplar coverage by Rohit Sharma Sir.</p>
-            <ul class="course-features"><li>✓ NCERT + Exemplar</li><li>✓ Chapter-wise Tests</li><li>✓ Doubt Clearing</li></ul>
-            <div class="course-footer"><span class="price">₹1,499<span>/mo</span></span><a href="contact.html" class="btn-card">Enroll</a></div>
-          </div>
-        </div>
-        <div class="course-card reveal" data-board="cbse">
-          <div class="course-card-header chemistry-bg"><span class="subject-icon">🧪</span><div class="course-board-tag">CBSE • Class 9 &amp; 10</div></div>
-          <div class="course-card-body">
-            <h3>CBSE Chemistry</h3>
-            <p>Atoms, Periodic Table, Chemical Bonding &amp; Reactions. Conceptual clarity guaranteed.</p>
-            <ul class="course-features"><li>✓ CBSE Pattern Focused</li><li>✓ Lab Practicals Guide</li><li>✓ Weekly Practice Tests</li></ul>
+            <h3>CBSE Science</h3>
+            <p>Complete Science — Physics, Chemistry &amp; Biology. NCERT + Exemplar coverage for CBSE board exams.</p>
+            <ul class="course-features"><li>✓ NCERT + Exemplar</li><li>✓ Lab Practicals Guide</li><li>✓ Chapter-wise Tests</li></ul>
             <div class="course-footer"><span class="price">₹1,499<span>/mo</span></span><a href="contact.html" class="btn-card">Enroll</a></div>
           </div>
         </div>
@@ -144,34 +139,6 @@
             <div class="course-footer"><span class="price">₹1,299<span>/mo</span></span><a href="contact.html" class="btn-card">Enroll</a></div>
           </div>
         </div>
-        <div class="course-card reveal featured" data-board="cbse">
-          <div class="featured-badge">⭐ Most Popular</div>
-          <div class="course-card-header physics-bg"><span class="subject-icon">⚛️</span><div class="course-board-tag">CBSE • Class 11 &amp; 12</div></div>
-          <div class="course-card-body">
-            <h3>CBSE Physics — Advanced</h3>
-            <p>Laws of Motion, Electromagnetism, Optics &amp; Modern Physics. Board + JEE Mains preparation.</p>
-            <ul class="course-features"><li>✓ Board + JEE Prep</li><li>✓ Weekly Mock Tests</li><li>✓ Previous Year Papers</li></ul>
-            <div class="course-footer"><span class="price">₹1,999<span>/mo</span></span><a href="contact.html" class="btn-card">Enroll</a></div>
-          </div>
-        </div>
-        <div class="course-card reveal" data-board="cbse">
-          <div class="course-card-header chemistry-bg"><span class="subject-icon">🧪</span><div class="course-board-tag">CBSE • Class 11 &amp; 12</div></div>
-          <div class="course-card-body">
-            <h3>CBSE Chemistry — Advanced</h3>
-            <p>Organic, Inorganic &amp; Physical Chemistry with complete CBSE + JEE Mains coverage by Aditi Ma'am.</p>
-            <ul class="course-features"><li>✓ CBSE + JEE Level</li><li>✓ Organic Reaction Maps</li><li>✓ Doubt Sessions</li></ul>
-            <div class="course-footer"><span class="price">₹1,999<span>/mo</span></span><a href="contact.html" class="btn-card">Enroll</a></div>
-          </div>
-        </div>
-        <div class="course-card reveal" data-board="cbse">
-          <div class="course-card-header maths-bg"><span class="subject-icon">📐</span><div class="course-board-tag">CBSE • Class 11 &amp; 12</div></div>
-          <div class="course-card-body">
-            <h3>CBSE Maths — Advanced</h3>
-            <p>Calculus, Vectors, Probability &amp; Matrices. Board + JEE Mains full preparation with Pawan Sir.</p>
-            <ul class="course-features"><li>✓ Board + JEE Mains</li><li>✓ Daily Practice Problems</li><li>✓ Monthly Assessments</li></ul>
-            <div class="course-footer"><span class="price">₹1,999<span>/mo</span></span><a href="contact.html" class="btn-card">Enroll</a></div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -180,7 +147,7 @@
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
-      <div class="footer-brand"><a href="home.html" class="nav-logo"><img src="logo.png" alt="RSC Logo"/>RSC</a><p>Empowering students of Classes 9–12 in Physics, Chemistry &amp; Maths for ICSE &amp; CBSE since 2016.</p></div>
+      <div class="footer-brand"><a href="home.html" class="nav-logo"><img src="logo.png" alt="Rohit Sharma Classes Logo"/>Rohit Sharma Classes</a><p>Empowering students of Classes 9–12 in Physics &amp; Science for ICSE &amp; CBSE since 2016.</p></div>
       <div class="footer-links"><h4>Curriculum</h4><ul><li><a href="icse.html">ICSE Curriculum</a></li><li><a href="cbse.html">CBSE Curriculum</a></li><li><a href="courses.html">All Courses</a></li></ul></div>
       <div class="footer-links"><h4>Quick Links</h4><ul><li><a href="home.html">Home</a></li><li><a href="wall-of-fame.html">Reviews</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
       <div class="footer-links"><h4>Legal</h4><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li><li><a href="#">Refund Policy</a></li></ul></div>
