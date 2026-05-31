@@ -466,82 +466,97 @@ ul {
   position: relative;
   min-height: 400px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center
+  justify-content: center;
+  gap: 28px;
 }
 
-.hero-circle {
+.hero-logo-showcase {
+  position: relative;
   width: 280px;
   height: 280px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, rgba(13, 148, 136, .15), rgba(6, 182, 212, .1));
-  border: 2px solid rgba(13, 148, 136, .2);
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: pulse 4s ease-in-out infinite
+  animation: fadeUp .8s .2s ease both;
 }
 
-.hero-circle-inner {
-  text-align: center
-}
-
-.circle-emoji {
-  font-size: 3rem;
-  display: block;
-  margin-bottom: 8px
-}
-
-.hero-circle-inner p {
-  font-size: .95rem;
-  font-weight: 700;
-  line-height: 1.4
-}
-
-.floating-card {
+.logo-glow-ring {
   position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  border: 2px solid rgba(13, 148, 136, .2);
+  animation: spinRing 12s linear infinite;
+}
+
+.logo-glow-ring::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: var(--teal-light);
+  border-radius: 50%;
+  box-shadow: 0 0 16px var(--teal-light), 0 0 40px rgba(13, 148, 136, .3);
+  transform: translateX(-50%);
+}
+
+.logo-glow-ring.ring-2 {
+  inset: -28px;
+  border-color: rgba(6, 182, 212, .12);
+  animation: spinRing 18s linear infinite reverse;
+}
+
+.logo-glow-ring.ring-2::before {
+  background: var(--cyan2);
+  box-shadow: 0 0 16px var(--cyan2), 0 0 40px rgba(6, 182, 212, .3);
+}
+
+.hero-logo-img {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(13, 148, 136, .25);
+  box-shadow: 0 0 40px rgba(13, 148, 136, .18), 0 0 80px rgba(13, 148, 136, .08);
+  position: relative;
+  z-index: 2;
+  animation: logoPulse 4s ease-in-out infinite;
+}
+
+.hero-trust-badges {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeUp .8s .4s ease both;
+}
+
+.trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   background: #fff;
   border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 12px 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  font-weight: 700;
-  font-size: .88rem;
-  box-shadow: 0 4px 20px rgba(13, 148, 136, 0.1);
-  animation: floatCard 3s ease-in-out infinite
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--text2);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, .06);
+  transition: .2s;
 }
 
-.floating-card .card-icon {
-  font-size: 1.4rem
+.trust-badge:hover {
+  transform: translateY(-2px);
+  border-color: rgba(13, 148, 136, .2);
+  box-shadow: 0 6px 20px rgba(13, 148, 136, .1);
 }
 
-.floating-card .card-tag {
-  font-size: .7rem;
-  font-weight: 500;
-  color: var(--text3)
-}
-
-.card-physics {
-  top: 20px;
-  left: 0;
-  animation-delay: 0s;
-  border-left: 3px solid var(--teal)
-}
-
-.card-chemistry {
-  bottom: 60px;
-  left: 20px;
-  animation-delay: 1s;
-  border-left: 3px solid var(--cyan)
-}
-
-.card-maths {
-  top: 60px;
-  right: 0;
-  animation-delay: 2s;
-  border-left: 3px solid var(--maths)
+.trust-icon {
+  font-size: 1.1rem;
 }
 
 /* BOARDS STRIP */
