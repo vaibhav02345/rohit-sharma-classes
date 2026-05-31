@@ -470,6 +470,7 @@ ul {
   align-items: center;
   justify-content: center;
   gap: 28px;
+  overflow: visible;
 }
 
 .hero-logo-showcase {
@@ -598,7 +599,9 @@ ul {
   background: linear-gradient(135deg, var(--dark), var(--dark2));
   border-top: 1px solid rgba(13, 148, 136, 0.2);
   border-bottom: 1px solid rgba(13, 148, 136, 0.2);
-  padding: 18px 24px
+  padding: 18px 24px;
+  position: relative;
+  z-index: 10;
 }
 
 .boards-container {
