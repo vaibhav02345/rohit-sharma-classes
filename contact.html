@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Contact | Rohit Sharma Classes</title>
+  <title>Contact Us | Rohit Sharma Classes</title>
   <meta name="description" content="Get in touch with Rohit Sharma Classes. Book a free demo for ICSE & CBSE coaching in Physics, Chemistry & Maths."/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
@@ -11,12 +11,12 @@
     .faculty-contact-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:16px}
     .fac-row{display:flex;align-items:center;gap:14px;margin-bottom:12px}
     .fac-av{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;color:#fff;flex-shrink:0}
-    .fac-av.ph{background:linear-gradient(135deg,#1d4ed8,#4338ca)}
-    .fac-av.ch{background:linear-gradient(135deg,#059669,#10b981)}
-    .fac-av.ma{background:linear-gradient(135deg,#d97706,#f97316)}
+    .fac-av.ph{background:linear-gradient(135deg,var(--teal-dark),var(--teal))}
+    .fac-av.ch{background:linear-gradient(135deg,#0891b2,var(--cyan))}
+    .fac-av.ma{background:linear-gradient(135deg,#d97706,#f59e0b)}
     .fac-info strong{display:block;font-size:.92rem;font-weight:700}
     .fac-info small{font-size:.78rem;color:var(--text3)}
-    .fac-email{font-size:.82rem;color:var(--blue-light);margin-top:4px}
+    .fac-email{font-size:.82rem;color:var(--teal);margin-top:4px}
     .hours-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:16px}
     .hours-card h4{font-size:.95rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
     .hours-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:.85rem}
@@ -27,7 +27,7 @@
     .map-placeholder{text-align:center;padding:32px}
     .map-placeholder .map-icon{font-size:2.5rem;margin-bottom:10px}
     .map-placeholder p{font-size:.85rem;color:var(--text2);margin-bottom:12px}
-    .map-link{color:var(--blue-light);font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:4px;justify-content:center}
+    .map-link{color:var(--teal);font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:4px;justify-content:center}
     .contact-side{display:flex;flex-direction:column;gap:16px}
     .direct-contact-header{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:10px;display:flex;align-items:center;gap:6px}
   </style>
@@ -35,13 +35,19 @@
 <body>
 <nav class="navbar" id="navbar">
   <div class="nav-container">
-    <a href="home.html" class="nav-logo">Rohit Sharma Classes</a>
+    <a href="home.html" class="nav-logo"><img src="logo.png" alt="RSC Logo"/>RSC</a>
     <ul class="nav-links" id="navLinks">
-      <li><a href="icse.html">ICSE</a></li>
-      <li><a href="cbse.html">CBSE</a></li>
-      <li><a href="courses.html">Courses</a></li>
-      <li><a href="wall-of-fame.html">Wall of Fame</a></li>
-      <li><a href="contact.html" class="active">Contact</a></li>
+      <li><a href="home.html">Home</a></li>
+      <li class="nav-dropdown">
+        <a href="courses.html">Courses</a>
+        <ul class="dropdown-menu">
+          <li><a href="icse.html">📘 ICSE Curriculum</a></li>
+          <li><a href="cbse.html">📗 CBSE Curriculum</a></li>
+          <li><a href="courses.html">📚 All Courses</a></li>
+        </ul>
+      </li>
+      <li><a href="wall-of-fame.html">Reviews</a></li>
+      <li><a href="contact.html" class="active">Contact Us</a></li>
     </ul>
     <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
   </div>
@@ -74,7 +80,7 @@
         </div>
         <div class="form-group"><label for="cPhone">Phone Number</label><input type="tel" id="cPhone" placeholder="+91 98765 43210"/></div>
         <div class="form-group"><label for="cMsg">Message</label><textarea id="cMsg" rows="4" placeholder="How can we help you?"></textarea></div>
-        <button type="submit" class="btn-blue full-btn" id="contactSubmitBtn">Send Inquiry</button>
+        <button type="submit" class="btn-teal full-btn" id="contactSubmitBtn">Send Inquiry</button>
       </form>
 
       <!-- Side Info -->
@@ -138,11 +144,11 @@
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="home.html" class="nav-logo">Rohit Sharma Classes</a>
+        <a href="home.html" class="nav-logo"><img src="logo.png" alt="RSC Logo"/>RSC</a>
         <p>Empowering students of Classes 9–12 in Physics, Chemistry &amp; Maths for ICSE &amp; CBSE since 2016.</p>
       </div>
       <div class="footer-links"><h4>Curriculum</h4><ul><li><a href="icse.html">ICSE Curriculum</a></li><li><a href="cbse.html">CBSE Curriculum</a></li><li><a href="courses.html">All Courses</a></li></ul></div>
-      <div class="footer-links"><h4>Institute</h4><ul><li><a href="wall-of-fame.html">Wall of Fame</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div class="footer-links"><h4>Institute</h4><ul><li><a href="wall-of-fame.html">Reviews</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
     </div>
     <div class="footer-bottom"><p>© 2025 Rohit Sharma Classes. All rights reserved.</p></div>
   </div>

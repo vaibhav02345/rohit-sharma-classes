@@ -12,10 +12,21 @@ if (hamburger) {
     navLinks.classList.toggle('open');
     hamburger.classList.toggle('active');
   });
-  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    navLinks.classList.remove('open');
-    hamburger.classList.remove('active');
-  }));
+
+  // Close menu when a non-dropdown link is clicked
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', (e) => {
+      // Don't close if it's the dropdown parent on mobile
+      const parentDropdown = a.closest('.nav-dropdown');
+      if (parentDropdown && a === parentDropdown.querySelector(':scope > a') && window.innerWidth <= 768) {
+        e.preventDefault();
+        parentDropdown.classList.toggle('open');
+        return;
+      }
+      navLinks.classList.remove('open');
+      hamburger.classList.remove('active');
+    });
+  });
 }
 
 // ===== COURSE TABS (courses page) =====
