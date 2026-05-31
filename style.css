@@ -527,36 +527,70 @@ ul {
 }
 
 .hero-trust-badges {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
-  animation: fadeUp .8s .4s ease both;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
 .trust-badge {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: #fff;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(8px);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 8px 16px;
   font-size: .82rem;
   font-weight: 600;
   color: var(--text2);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, .06);
+  box-shadow: 0 4px 16px rgba(13, 148, 136, .1);
   transition: .2s;
+  position: absolute;
+  pointer-events: auto;
+  white-space: nowrap;
+}
+
+.trust-badge:nth-child(1) {
+  top: 10px;
+  right: -20px;
+  animation: floatBadge1 4s ease-in-out infinite;
+}
+
+.trust-badge:nth-child(2) {
+  left: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: floatBadge2 4s ease-in-out infinite;
+}
+
+.trust-badge:nth-child(3) {
+  bottom: 10px;
+  right: -10px;
+  animation: floatBadge3 4s ease-in-out infinite;
 }
 
 .trust-badge:hover {
-  transform: translateY(-2px);
-  border-color: rgba(13, 148, 136, .2);
-  box-shadow: 0 6px 20px rgba(13, 148, 136, .1);
+  transform: translateY(-2px) scale(1.05);
+  border-color: rgba(13, 148, 136, .25);
+  box-shadow: 0 8px 24px rgba(13, 148, 136, .15);
 }
 
 .trust-icon {
   font-size: 1.1rem;
+}
+
+@keyframes floatBadge1 {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes floatBadge2 {
+  0%, 100% { transform: translateY(-50%) translateX(0); }
+  50% { transform: translateY(-50%) translateX(-6px); }
+}
+@keyframes floatBadge3 {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 
 /* BOARDS STRIP */
@@ -1781,9 +1815,34 @@ ul {
   .logo-glow-ring { inset: -8px; }
   .logo-glow-ring.ring-2 { inset: -18px; }
 
+  .hero-trust-badges {
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    pointer-events: auto;
+  }
+
   .trust-badge {
+    position: static;
     padding: 6px 12px;
     font-size: .78rem;
+    animation: none !important;
+    transform: none !important;
+  }
+
+  /* Boards strip mobile centering */
+  .boards-strip {
+    text-align: center;
+  }
+
+  .boards-container {
+    justify-content: center;
+  }
+
+  .class-badges {
+    justify-content: center;
   }
 
   /* ── REVIEWS CAROUSEL ── */
