@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Study Material | Rohit Sharma Classes</title>
+  <meta name="description" content="Download free study notes, DPPs and question banks for ICSE & CBSE Classes 9–12 by Rohit Sharma Classes."/>
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="home.html" class="nav-logo"><img src="logo.png" alt="Rohit Sharma Classes Logo"/>Rohit Sharma Classes</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="home.html">Home</a></li>
+      <li class="nav-dropdown">
+        <a href="courses.html">Courses</a>
+        <ul class="dropdown-menu">
+          <li><a href="icse.html">📘 ICSE Curriculum</a></li>
+          <li><a href="cbse.html">📗 CBSE Curriculum</a></li>
+          <li><a href="courses.html">📚 All Courses</a></li>
+        </ul>
+      </li>
+      <li class="nav-dropdown">
+        <a href="study-material.html" class="active">Study Material</a>
+        <ul class="dropdown-menu">
+          <li><a href="study-material.html#notes">📄 Notes & Resources</a></li>
+          <li><a href="study-material.html#question-bank">📝 Question Bank / DPPs</a></li>
+        </ul>
+      </li>
+      <li><a href="wall-of-fame.html">Reviews</a></li>
+      <li><a href="contact.html">Contact Us</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="container">
+    <span class="section-tag">Free Resources</span>
+    <h1>Study <span class="gradient-text">Material</span></h1>
+    <p>Download notes, DPPs, and question banks prepared by Rohit Sir for ICSE & CBSE Classes 9–12.</p>
+  </div>
+</div>
+
+<!-- FILTER TABS -->
+<section class="section" id="notes" style="padding-bottom:30px">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">📄 Notes & Resources</span>
+      <h2>Class <span class="gradient-text">Notes</span></h2>
+      <p>Comprehensive study notes uploaded by Rohit Sir. Download and study at your own pace.</p>
+    </div>
+
+    <div class="material-filters">
+      <button class="mat-filter-btn active" data-filter="all" data-section="notes">All</button>
+      <button class="mat-filter-btn" data-filter="Physics" data-section="notes">Physics</button>
+      <button class="mat-filter-btn" data-filter="Chemistry" data-section="notes">Chemistry</button>
+      <button class="mat-filter-btn" data-filter="Mathematics" data-section="notes">Mathematics</button>
+      <button class="mat-filter-btn" data-filter="Biology" data-section="notes">Biology</button>
+    </div>
+
+    <div class="materials-grid" id="notesGrid">
+      <div class="material-empty" id="notesEmpty">
+        <div class="empty-icon">📄</div>
+        <h3>Notes Coming Soon</h3>
+        <p>Rohit Sir will upload study notes here. Check back soon!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUESTION BANK / DPPs -->
+<section class="section" id="question-bank" style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">📝 Question Bank</span>
+      <h2>DPPs & <span class="gradient-text">Practice Papers</span></h2>
+      <p>Daily Practice Problems and question banks to sharpen your problem-solving skills.</p>
+    </div>
+
+    <div class="material-filters">
+      <button class="mat-filter-btn active" data-filter="all" data-section="dpps">All</button>
+      <button class="mat-filter-btn" data-filter="Physics" data-section="dpps">Physics</button>
+      <button class="mat-filter-btn" data-filter="Chemistry" data-section="dpps">Chemistry</button>
+      <button class="mat-filter-btn" data-filter="Mathematics" data-section="dpps">Mathematics</button>
+      <button class="mat-filter-btn" data-filter="Biology" data-section="dpps">Biology</button>
+    </div>
+
+    <div class="materials-grid" id="dppsGrid">
+      <div class="material-empty" id="dppsEmpty">
+        <div class="empty-icon">📝</div>
+        <h3>DPPs Coming Soon</h3>
+        <p>Practice problems and question banks will appear here once uploaded.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" id="cta">
+  <div class="container" style="text-align:center">
+    <span class="section-tag">Need Help?</span>
+    <h2 style="font-size:clamp(1.5rem,3vw,2.3rem);font-weight:800;margin:14px 0 10px">Can't Find What You <span class="gradient-text">Need?</span></h2>
+    <p style="color:var(--text2);max-width:500px;margin:0 auto 32px">Reach out to us and we'll help you with the right study material for your class and board.</p>
+    <a href="contact.html" class="btn-primary">Contact Us →</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><a href="home.html" class="nav-logo"><img src="logo.png" alt="Rohit Sharma Classes Logo"/>Rohit Sharma Classes</a><p>Empowering students of Classes 9–12 in Physics &amp; Science for ICSE &amp; CBSE since 2016.</p></div>
+      <div class="footer-links"><h4>Curriculum</h4><ul><li><a href="icse.html">ICSE Curriculum</a></li><li><a href="cbse.html">CBSE Curriculum</a></li><li><a href="courses.html">All Courses</a></li></ul></div>
+      <div class="footer-links"><h4>Resources</h4><ul><li><a href="study-material.html">Study Material</a></li><li><a href="study-material.html#question-bank">Question Bank</a></li><li><a href="wall-of-fame.html">Reviews</a></li></ul></div>
+      <div class="footer-links"><h4>Quick Links</h4><ul><li><a href="home.html">Home</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2025 Rohit Sharma Classes. All rights reserved.</p></div>
+  </div>
+</footer>
+<div class="toast" id="toast"></div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="script.js"></script>
+<script>
+// ===== LOAD MATERIALS FROM FIREBASE =====
+function loadMaterials() {
+  // Load Notes
+  db.collection('materials').where('category', '==', 'Notes').orderBy('uploadedAt', 'desc').get()
+    .then(snapshot => {
+      const grid = document.getElementById('notesGrid');
+      const empty = document.getElementById('notesEmpty');
+      if (snapshot.empty) { empty.style.display = 'flex'; return; }
+      empty.style.display = 'none';
+      snapshot.forEach(doc => {
+        const d = doc.data();
+        grid.appendChild(createMaterialCard(d));
+      });
+    }).catch(err => console.log('Notes load error:', err));
+
+  // Load DPPs / Question Bank
+  db.collection('materials').where('category', 'in', ['DPP', 'Question Bank']).orderBy('uploadedAt', 'desc').get()
+    .then(snapshot => {
+      const grid = document.getElementById('dppsGrid');
+      const empty = document.getElementById('dppsEmpty');
+      if (snapshot.empty) { empty.style.display = 'flex'; return; }
+      empty.style.display = 'none';
+      snapshot.forEach(doc => {
+        const d = doc.data();
+        grid.appendChild(createMaterialCard(d));
+      });
+    }).catch(err => console.log('DPPs load error:', err));
+}
+
+function createMaterialCard(d) {
+  const card = document.createElement('div');
+  card.className = 'material-card reveal visible';
+  card.setAttribute('data-subject', d.subject || '');
+  const subjectColors = {
+    'Physics': { bg: 'rgba(13,148,136,.12)', color: 'var(--teal)', icon: '⚛️' },
+    'Chemistry': { bg: 'rgba(6,182,212,.12)', color: 'var(--cyan)', icon: '🧪' },
+    'Mathematics': { bg: 'rgba(245,158,11,.12)', color: '#f59e0b', icon: '📐' },
+    'Biology': { bg: 'rgba(16,185,129,.12)', color: '#10b981', icon: '🧬' }
+  };
+  const sc = subjectColors[d.subject] || { bg: 'rgba(13,148,136,.12)', color: 'var(--teal)', icon: '📄' };
+  const date = d.uploadedAt ? new Date(d.uploadedAt.seconds * 1000).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+  card.innerHTML = `
+    <div class="material-card-header" style="background:${sc.bg}">
+      <span class="material-icon">${sc.icon}</span>
+      <span class="material-subject-tag" style="background:${sc.bg};color:${sc.color}">${d.subject || 'General'}</span>
+    </div>
+    <div class="material-card-body">
+      <h3>${d.title}</h3>
+      <div class="material-meta">
+        <span>📚 ${d.classLevel || ''}</span>
+        <span>📅 ${date}</span>
+      </div>
+      <div class="material-card-footer">
+        <span class="material-type-badge">${d.category}</span>
+        <a href="${d.downloadURL}" target="_blank" class="btn-card" download>📥 Download</a>
+      </div>
+    </div>
+  `;
+  return card;
+}
+
+// Filter buttons
+document.querySelectorAll('.mat-filter-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const section = this.dataset.section;
+    const filter = this.dataset.filter;
+    // Update active states within same section
+    document.querySelectorAll(`.mat-filter-btn[data-section="${section}"]`).forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    // Filter cards
+    const gridId = section === 'notes' ? 'notesGrid' : 'dppsGrid';
+    document.querySelectorAll(`#${gridId} .material-card`).forEach(card => {
+      if (filter === 'all' || card.dataset.subject === filter) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  });
+});
+
+loadMaterials();
+</script>
+</body>
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Admin Panel | Rohit Sharma Classes</title>
+  <meta name="robots" content="noindex, nofollow"/>
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="home.html" class="nav-logo"><img src="logo.png" alt="Rohit Sharma Classes Logo"/>Rohit Sharma Classes</a>
+    <div style="display:flex;align-items:center;gap:12px">
+      <span class="admin-badge" id="adminBadge" style="display:none">🔐 Admin Mode</span>
+      <button class="btn-outline" id="logoutBtn" style="display:none;padding:8px 18px;font-size:.82rem" onclick="adminLogout()">Logout</button>
+    </div>
+  </div>
+</nav>
+
+<!-- LOGIN SCREEN -->
+<div class="admin-login-screen" id="loginScreen">
+  <div class="admin-login-card">
+    <div class="admin-login-icon">🔐</div>
+    <h2>Admin Login</h2>
+    <p>Enter the admin password to access the dashboard.</p>
+    <form id="adminLoginForm">
+      <div class="form-group">
+        <label for="adminPass">Password</label>
+        <input type="password" id="adminPass" placeholder="Enter admin password" required autocomplete="current-password"/>
+      </div>
+      <button type="submit" class="btn-primary full-btn" id="loginBtn">Login</button>
+      <p class="form-note" id="loginError" style="color:#ef4444;display:none">Incorrect password. Try again.</p>
+    </form>
+  </div>
+</div>
+
+<!-- ADMIN DASHBOARD -->
+<div class="admin-dashboard" id="adminDashboard" style="display:none">
+  <div class="page-header" style="padding:100px 0 40px">
+    <div class="container">
+      <span class="section-tag">Admin Dashboard</span>
+      <h1>Manage <span class="gradient-text">Study Material</span></h1>
+      <p>Upload notes, DPPs and question bank papers. Students will see them instantly.</p>
+    </div>
+  </div>
+
+  <section class="section" style="padding-top:30px">
+    <div class="container">
+      <div class="admin-grid">
+        <!-- UPLOAD FORM -->
+        <div class="admin-upload-card">
+          <h3>📤 Upload New Material</h3>
+          <form id="uploadForm">
+            <div class="form-group">
+              <label for="matTitle">Title</label>
+              <input type="text" id="matTitle" placeholder="e.g. Chapter 5 — Electrostatics Notes" required/>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="matSubject">Subject</label>
+                <select id="matSubject" required>
+                  <option value="">Select</option>
+                  <option>Physics</option>
+                  <option>Chemistry</option>
+                  <option>Mathematics</option>
+                  <option>Biology</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="matClass">Class</label>
+                <select id="matClass" required>
+                  <option value="">Select</option>
+                  <option>Class 9</option>
+                  <option>Class 10</option>
+                  <option>Class 11</option>
+                  <option>Class 12</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="matCategory">Category</label>
+              <select id="matCategory" required>
+                <option value="">Select Type</option>
+                <option>Notes</option>
+                <option>DPP</option>
+                <option>Question Bank</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="matFile">PDF File</label>
+              <div class="file-upload-area" id="fileDropArea">
+                <input type="file" id="matFile" accept=".pdf" required style="display:none"/>
+                <div class="file-upload-content" id="fileUploadContent">
+                  <span class="file-upload-icon">📎</span>
+                  <p>Click to select PDF or drag & drop</p>
+                  <small>Max size: 10 MB</small>
+                </div>
+                <div class="file-selected" id="fileSelected" style="display:none">
+                  <span>📄</span>
+                  <span id="fileName"></span>
+                  <button type="button" class="file-remove" onclick="removeFile()">✕</button>
+                </div>
+              </div>
+            </div>
+            <button type="submit" class="btn-primary full-btn" id="uploadBtn">
+              <span id="uploadBtnText">Upload Material</span>
+            </button>
+            <div class="upload-progress" id="uploadProgress" style="display:none">
+              <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+              <span class="progress-text" id="progressText">Uploading... 0%</span>
+            </div>
+          </form>
+        </div>
+
+        <!-- UPLOADED MATERIALS LIST -->
+        <div class="admin-materials-list">
+          <h3>📋 Uploaded Materials</h3>
+          <div class="admin-materials-count" id="materialsCount">Loading...</div>
+          <div id="materialsList" class="admin-items-list">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+// ===== ADMIN CONFIG =====
+// CHANGE THIS PASSWORD to something secure!
+const ADMIN_PASSWORD = 'rohit2025';
+
+// ===== TOAST =====
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  if (!toast) return;
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3500);
+}
+
+// ===== LOGIN =====
+document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const pass = document.getElementById('adminPass').value;
+  if (pass === ADMIN_PASSWORD) {
+    sessionStorage.setItem('adminLoggedIn', 'true');
+    showDashboard();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+    document.getElementById('adminPass').value = '';
+  }
+});
+
+function showDashboard() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('adminDashboard').style.display = 'block';
+  document.getElementById('adminBadge').style.display = 'inline-block';
+  document.getElementById('logoutBtn').style.display = 'inline-block';
+  loadAdminMaterials();
+}
+
+function adminLogout() {
+  sessionStorage.removeItem('adminLoggedIn');
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('adminDashboard').style.display = 'none';
+  document.getElementById('adminBadge').style.display = 'none';
+  document.getElementById('logoutBtn').style.display = 'none';
+}
+
+// Check session
+if (sessionStorage.getItem('adminLoggedIn') === 'true') {
+  showDashboard();
+}
+
+// ===== FILE UPLOAD UI =====
+const fileInput = document.getElementById('matFile');
+const dropArea = document.getElementById('fileDropArea');
+
+dropArea.addEventListener('click', () => fileInput.click());
+dropArea.addEventListener('dragover', (e) => { e.preventDefault(); dropArea.classList.add('drag-over'); });
+dropArea.addEventListener('dragleave', () => dropArea.classList.remove('drag-over'));
+dropArea.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropArea.classList.remove('drag-over');
+  if (e.dataTransfer.files.length) {
+    fileInput.files = e.dataTransfer.files;
+    showSelectedFile(e.dataTransfer.files[0]);
+  }
+});
+fileInput.addEventListener('change', () => {
+  if (fileInput.files.length) showSelectedFile(fileInput.files[0]);
+});
+
+function showSelectedFile(file) {
+  document.getElementById('fileUploadContent').style.display = 'none';
+  document.getElementById('fileSelected').style.display = 'flex';
+  document.getElementById('fileName').textContent = file.name + ' (' + (file.size / 1024 / 1024).toFixed(2) + ' MB)';
+}
+
+function removeFile() {
+  fileInput.value = '';
+  document.getElementById('fileUploadContent').style.display = 'flex';
+  document.getElementById('fileSelected').style.display = 'none';
+}
+
+// ===== UPLOAD MATERIAL =====
+document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const title = document.getElementById('matTitle').value.trim();
+  const subject = document.getElementById('matSubject').value;
+  const classLevel = document.getElementById('matClass').value;
+  const category = document.getElementById('matCategory').value;
+  const file = fileInput.files[0];
+
+  if (!file) { showToast('❌ Please select a PDF file'); return; }
+  if (file.size > 10 * 1024 * 1024) { showToast('❌ File too large. Max 10 MB.'); return; }
+  if (file.type !== 'application/pdf') { showToast('❌ Only PDF files are allowed.'); return; }
+
+  const btn = document.getElementById('uploadBtn');
+  const btnText = document.getElementById('uploadBtnText');
+  const progressDiv = document.getElementById('uploadProgress');
+  const progressFill = document.getElementById('progressFill');
+  const progressText = document.getElementById('progressText');
+
+  btn.disabled = true;
+  btnText.textContent = 'Uploading...';
+  progressDiv.style.display = 'flex';
+
+  try {
+    // Upload file to Firebase Storage
+    const fileName = Date.now() + '_' + file.name.replace(/\s+/g, '_');
+    const storageRef = storage.ref('materials/' + fileName);
+    const uploadTask = storageRef.put(file);
+
+    uploadTask.on('state_changed',
+      (snapshot) => {
+        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        progressFill.style.width = progress + '%';
+        progressText.textContent = 'Uploading... ' + progress + '%';
+      },
+      (error) => {
+        showToast('❌ Upload failed: ' + error.message);
+        btn.disabled = false;
+        btnText.textContent = 'Upload Material';
+        progressDiv.style.display = 'none';
+      },
+      async () => {
+        // Get download URL
+        const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
+
+        // Save metadata to Firestore
+        await db.collection('materials').add({
+          title,
+          subject,
+          classLevel,
+          category,
+          fileName: file.name,
+          storagePath: 'materials/' + fileName,
+          downloadURL,
+          uploadedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        showToast('✅ Material uploaded successfully!');
+        btn.disabled = false;
+        btnText.textContent = 'Upload Material';
+        progressDiv.style.display = 'none';
+        progressFill.style.width = '0%';
+        document.getElementById('uploadForm').reset();
+        removeFile();
+        loadAdminMaterials();
+      }
+    );
+  } catch (err) {
+    showToast('❌ Error: ' + err.message);
+    btn.disabled = false;
+    btnText.textContent = 'Upload Material';
+    progressDiv.style.display = 'none';
+  }
+});
+
+// ===== LOAD ADMIN MATERIALS =====
+function loadAdminMaterials() {
+  db.collection('materials').orderBy('uploadedAt', 'desc').get()
+    .then(snapshot => {
+      const list = document.getElementById('materialsList');
+      const count = document.getElementById('materialsCount');
+      list.innerHTML = '';
+      count.textContent = snapshot.size + ' material(s) uploaded';
+
+      if (snapshot.empty) {
+        list.innerHTML = '<div class="admin-empty">No materials uploaded yet.</div>';
+        return;
+      }
+
+      snapshot.forEach(doc => {
+        const d = doc.data();
+        const date = d.uploadedAt ? new Date(d.uploadedAt.seconds * 1000).toLocaleDateString('en-IN') : 'Just now';
+        const item = document.createElement('div');
+        item.className = 'admin-material-item';
+        item.innerHTML = `
+          <div class="admin-item-info">
+            <strong>${d.title}</strong>
+            <div class="admin-item-meta">
+              <span>${d.subject}</span> · <span>${d.classLevel}</span> · <span>${d.category}</span> · <span>${date}</span>
+            </div>
+          </div>
+          <div class="admin-item-actions">
+            <a href="${d.downloadURL}" target="_blank" class="admin-action-btn view">📥</a>
+            <button class="admin-action-btn delete" onclick="deleteMaterial('${doc.id}', '${d.storagePath}')">🗑️</button>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }).catch(err => {
+      console.log('Load error:', err);
+      document.getElementById('materialsList').innerHTML = '<div class="admin-empty">Error loading materials. Check Firebase config.</div>';
+    });
+}
+
+// ===== DELETE MATERIAL =====
+async function deleteMaterial(docId, storagePath) {
+  if (!confirm('Are you sure you want to delete this material?')) return;
+  try {
+    await db.collection('materials').doc(docId).delete();
+    if (storagePath) {
+      await storage.ref(storagePath).delete();
+    }
+    showToast('🗑️ Material deleted');
+    loadAdminMaterials();
+  } catch (err) {
+    showToast('❌ Delete failed: ' + err.message);
+  }
+}
+
+// ===== NAVBAR SCROLL =====
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+});
+</script>
+</body>
+</html>
