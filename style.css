@@ -2148,7 +2148,8 @@ ul {
   }
 
   .nav-links.open {
-    max-height: 500px;
+    max-height: 85vh;
+    overflow-y: auto;
   }
 
   .nav-links li {
@@ -2203,7 +2204,12 @@ ul {
   }
 
   .nav-dropdown>a::after {
-    display: none
+    display: inline-block;
+    transition: transform .3s
+  }
+
+  .nav-dropdown.open>a::after {
+    transform: rotate(180deg)
   }
 
   .dropdown-menu a {
