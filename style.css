@@ -2197,7 +2197,11 @@ ul {
     display: none
   }
 
-  .nav-dropdown:hover .dropdown-menu,
+  .nav-dropdown:hover .dropdown-menu {
+    display: none;
+    transform: none;
+  }
+
   .nav-dropdown.open .dropdown-menu {
     display: block;
     transform: none;
