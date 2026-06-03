@@ -155,31 +155,7 @@
     </div>
     <div class="reviews-carousel" style="overflow:hidden;position:relative">
       <div class="reviews-track" id="reviewsTrack" style="display:flex;transition:transform 0.5s ease;will-change:transform">
-        <div class="review-card reveal" style="min-width:100%;flex-shrink:0;box-sizing:border-box">
-          <div class="review-stars">★★★★★</div>
-          <p>"Rohit Sir's Physics classes are on another level. I went from 58 to 96 in my CBSE boards. His approach to Electrostatics is unmatched anywhere."</p>
-          <div class="review-author"><div class="review-avatar" style="background:linear-gradient(135deg,#0f766e,#0d9488)">A</div><div><strong>Aryan Sharma</strong><span>Class 12 CBSE · 96 in Physics</span></div></div>
-        </div>
-        <div class="review-card reveal" style="min-width:100%;flex-shrink:0;box-sizing:border-box">
-          <div class="review-stars">★★★★★</div>
-          <p>"Rohit Sir's teaching style makes even the toughest concepts feel easy. I scored 97 in my ICSE Science exam. His notes are literally gold!"</p>
-          <div class="review-author"><div class="review-avatar" style="background:linear-gradient(135deg,#0891b2,#06b6d4)">R</div><div><strong>Riya Desai</strong><span>Class 10 ICSE · 97 in Science</span></div></div>
-        </div>
-        <div class="review-card reveal" style="min-width:100%;flex-shrink:0;box-sizing:border-box">
-          <div class="review-stars">★★★★★</div>
-          <p>"The DPPs and practice sets are incredible. Rohit Sir's method of teaching concepts first and then drilling problems helped me crack JEE Mains on first attempt!"</p>
-          <div class="review-author"><div class="review-avatar" style="background:linear-gradient(135deg,#d97706,#f59e0b)">K</div><div><strong>Karan Mehta</strong><span>Class 12 CBSE · JEE Mains Qualified</span></div></div>
-        </div>
-        <div class="review-card reveal" style="min-width:100%;flex-shrink:0;box-sizing:border-box">
-          <div class="review-stars">★★★★★</div>
-          <p>"I was afraid of Physics. Rohit Sir made me love it. From 52 to 91 in ICSE. Personal attention in small batches made all the difference."</p>
-          <div class="review-author"><div class="review-avatar" style="background:linear-gradient(135deg,#0d9488,#14b8a6)">S</div><div><strong>Shreya Nair</strong><span>Class 10 ICSE · 91 in Physics</span></div></div>
-        </div>
-        <div class="review-card reveal" style="min-width:100%;flex-shrink:0;box-sizing:border-box">
-          <div class="review-stars">★★★★★</div>
-          <p>"Recorded lectures + WhatsApp doubt support is a game changer before exams. Rohit Sharma Classes is worth every single rupee!"</p>
-          <div class="review-author"><div class="review-avatar" style="background:linear-gradient(135deg,#06b6d4,#0f766e)">N</div><div><strong>Nikhil Joshi</strong><span>Class 11 CBSE</span></div></div>
-        </div>
+        <!-- Reviews loaded from Firebase -->
       </div>
     </div>
     <div class="carousel-controls">
@@ -251,14 +227,29 @@
 <script src="firebase-config.js"></script>
 <script src="script.js"></script>
 <script>
-// ===== LOAD USER REVIEWS INTO HOME CAROUSEL =====
+// ===== LOAD REAL USER REVIEWS INTO HOME CAROUSEL =====
 (function() {
   const track = document.getElementById('reviewsTrack');
+  const controls = document.querySelector('.carousel-controls');
+  const dotsContainer = document.getElementById('carouselDots');
   if (!track || typeof db === 'undefined') return;
+
+  // Hide controls until reviews load
+  if (controls) controls.style.display = 'none';
 
   db.collection('reviews').orderBy('createdAt', 'desc').limit(10).get()
     .then(snapshot => {
-      if (snapshot.empty) return;
+      if (snapshot.empty) {
+        // Show a message when no reviews
+        track.innerHTML = `
+          <div class="review-card reveal visible" style="min-width:100%;flex-shrink:0;box-sizing:border-box;text-align:center">
+            <div class="review-stars">★★★★★</div>
+            <p style="font-style:normal;color:var(--text2)">Student reviews will appear here. Be the first to share your experience!</p>
+            <div style="margin-top:12px"><a href="wall-of-fame.html#leave-review" class="btn-teal" style="font-size:.85rem;padding:10px 22px">Leave a Review →</a></div>
+          </div>
+        `;
+        return;
+      }
 
       const avatarColors = [
         'linear-gradient(135deg,#0f766e,#0d9488)',
@@ -291,19 +282,33 @@
         track.appendChild(card);
       });
 
-      // Re-initialize carousel with new cards
+      // Initialize carousel
       const allCards = track.querySelectorAll('.review-card');
-      const dotsContainer = document.getElementById('carouselDots');
-      dotsContainer.innerHTML = '';
-      allCards.forEach((_, i) => {
-        const dot = document.createElement('div');
-        dot.className = 'dot' + (i === 0 ? ' active' : '');
-        dot.addEventListener('click', () => {
-          track.style.transform = `translateX(-${i * 100}%)`;
-          dotsContainer.querySelectorAll('.dot').forEach((d, j) => d.classList.toggle('active', j === i));
+      if (allCards.length > 1 && controls) {
+        controls.style.display = 'flex';
+        let currentIdx = 0;
+        let autoSlide;
+
+        allCards.forEach((_, i) => {
+          const dot = document.createElement('div');
+          dot.className = 'dot' + (i === 0 ? ' active' : '');
+          dot.addEventListener('click', () => { goTo(i); resetAuto(); });
+          dotsContainer.appendChild(dot);
         });
-        dotsContainer.appendChild(dot);
-      });
+
+        function goTo(idx) {
+          currentIdx = (idx + allCards.length) % allCards.length;
+          track.style.transform = `translateX(-${currentIdx * 100}%)`;
+          dotsContainer.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentIdx));
+        }
+
+        document.getElementById('prevBtn').addEventListener('click', () => { goTo(currentIdx - 1); resetAuto(); });
+        document.getElementById('nextBtn').addEventListener('click', () => { goTo(currentIdx + 1); resetAuto(); });
+
+        function startAuto() { autoSlide = setInterval(() => goTo(currentIdx + 1), 4500); }
+        function resetAuto() { clearInterval(autoSlide); startAuto(); }
+        startAuto();
+      }
     }).catch(err => console.log('Home reviews load error:', err));
 })();
 </script>
