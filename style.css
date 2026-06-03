@@ -1027,8 +1027,8 @@ ul {
 /* REVIEWS */
 .reviews-carousel {
   overflow: hidden;
-  margin: 0 -24px;
-  padding: 0 24px
+  position: relative;
+  border-radius: var(--radius)
 }
 
 .reviews-track {
@@ -1039,13 +1039,18 @@ ul {
 }
 
 .review-card {
-  min-width: 330px;
+  width: 100%;
+  box-sizing: border-box;
   background: #fff;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 24px;
-  flex-shrink: 0;
   box-shadow: 0 2px 12px rgba(0, 0, 0, .06)
+}
+
+.reviews-track .review-card {
+  max-width: 850px;
+  margin: 0 auto;
 }
 
 .review-stars {

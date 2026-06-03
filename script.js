@@ -44,37 +44,6 @@ if (tabBtns.length) {
   });
 }
 
-// ===== REVIEWS CAROUSEL =====
-const track = document.getElementById('reviewsTrack');
-if (track) {
-  const cards = track.querySelectorAll('.review-card');
-  const dotsContainer = document.getElementById('carouselDots');
-  let currentIdx = 0;
-  let autoSlide;
-
-  cards.forEach((_, i) => {
-    const dot = document.createElement('div');
-    dot.className = 'dot' + (i === 0 ? ' active' : '');
-    dot.addEventListener('click', () => { goTo(i); resetAuto(); });
-    dotsContainer.appendChild(dot);
-  });
-
-  function goTo(idx) {
-    currentIdx = (idx + cards.length) % cards.length;
-    track.style.transform = `translateX(-${currentIdx * 100}%)`;
-    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentIdx));
-  }
-
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  if (prevBtn) prevBtn.addEventListener('click', () => { goTo(currentIdx - 1); resetAuto(); });
-  if (nextBtn) nextBtn.addEventListener('click', () => { goTo(currentIdx + 1); resetAuto(); });
-
-  function startAuto() { autoSlide = setInterval(() => goTo(currentIdx + 1), 4500); }
-  function resetAuto() { clearInterval(autoSlide); startAuto(); }
-  startAuto();
-}
-
 // ===== SCROLL REVEAL =====
 const revealEls = document.querySelectorAll('.reveal, .course-card, .teacher-card, .contact-card, .wof-stat-card, .topper-card, .why-card');
 revealEls.forEach(el => el.classList.add('reveal'));
