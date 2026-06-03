@@ -13,12 +13,12 @@
 // =====================================================
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAjSrYmAIOA4jAO2wSc2sU8nja1RP24Of4",
-  authDomain: "rohitsharmaclasses-b84c7.firebaseapp.com",
-  projectId: "rohitsharmaclasses-b84c7",
-  storageBucket: "rohitsharmaclasses-b84c7.firebasestorage.app",
-  messagingSenderId: "437910006938",
-  appId: "1:437910006938:web:467bece3bca78316874323"
+  apiKey: "AIzaSyDdOWkFk196dvrooOgUzNDv7MSzDIlWU0E",
+  authDomain: "rohitsharmaclasses-46da5.firebaseapp.com",
+  projectId: "rohitsharmaclasses-46da5",
+  storageBucket: "rohitsharmaclasses-46da5.firebasestorage.app",
+  messagingSenderId: "735400344915",
+  appId: "1:735400344915:web:d2f8ef5e67d67b276e75a6"
 };
 
 // Initialize Firebase
