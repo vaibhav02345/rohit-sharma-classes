@@ -1033,7 +1033,7 @@ ul {
 
 .reviews-track {
   display: flex;
-  gap: 22px;
+  gap: 0;
   transition: transform .5s cubic-bezier(.4, 0, .2, 1);
   padding-bottom: 8px
 }

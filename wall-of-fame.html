@@ -122,55 +122,21 @@
   </div>
 </section>
 
-<!-- PARENT TESTIMONIALS -->
-<section class="section" style="background:linear-gradient(135deg,var(--dark) 0%,#0a2a2e 100%)">
+<!-- USER REVIEWS FROM FIREBASE (Dark Theme) -->
+<section class="section" id="user-reviews" style="background:linear-gradient(135deg,var(--dark) 0%,#0a2a2e 100%)">
   <div class="container">
     <div class="section-header">
-      <span class="section-tag" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#fff">Beyond the Numbers</span>
-      <h2 style="color:#fff">What Parents &amp; <span style="color:var(--teal-light)">Students Say</span></h2>
-    </div>
-    <div class="reviews-carousel">
-      <div class="reviews-track" id="reviewsTrack">
-        <div class="review-card" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12)">
-          <div class="review-stars">★★★★★</div>
-          <p style="color:#b2dfdb">"As a parent I was worried about screen time. But Rohit Sharma Classes turned that screen time into high-impact learning. My daughter doesn't just know the answer; she understands the mechanics behind it."</p>
-          <div class="review-author"><div class="review-avatar" style="background:rgba(255,255,255,.15)">M</div><div><strong style="color:#fff">Mrs. Kapoor</strong><span style="color:#80cbc4">Parent of Ananya, ICSE 10th</span></div></div>
-        </div>
-        <div class="review-card" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12)">
-          <div class="review-stars">★★★★★</div>
-          <p style="color:#b2dfdb">"Rohit Sir's concept-based teaching made Physics feel like an adventure. When you truly understand the principles, you don't need to memorize anything."</p>
-          <div class="review-author"><div class="review-avatar" style="background:rgba(255,255,255,.15)">V</div><div><strong style="color:#fff">Vikram Singh</strong><span style="color:#80cbc4">ICSE 12th Topper</span></div></div>
-        </div>
-        <div class="review-card" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12)">
-          <div class="review-stars">★★★★★</div>
-          <p style="color:#b2dfdb">"Rohit Sir's approach to Physics is unlike anything I've seen. He makes even the most abstract concepts feel intuitive and simple."</p>
-          <div class="review-author"><div class="review-avatar" style="background:rgba(255,255,255,.15)">R</div><div><strong style="color:#fff">Rahul Thakur</strong><span style="color:#80cbc4">CBSE Class 12 Student</span></div></div>
-        </div>
-      </div>
-    </div>
-    <div class="carousel-controls">
-      <button class="carousel-btn" id="prevBtn" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff">&#8592;</button>
-      <div class="carousel-dots" id="carouselDots"></div>
-      <button class="carousel-btn" id="nextBtn" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff">&#8594;</button>
-    </div>
-  </div>
-</section>
-
-<!-- USER REVIEWS FROM FIREBASE -->
-<section class="section" id="user-reviews">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-tag">💬 Community Reviews</span>
-      <h2>What <span class="gradient-text">Real Students</span> Say</h2>
-      <p>Genuine reviews from our students and parents. Your feedback helps us improve!</p>
+      <span class="section-tag" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#fff">💬 Real Feedback</span>
+      <h2 style="color:#fff">What <span style="color:var(--teal-light)">Real Students</span> Say</h2>
+      <p style="color:#80cbc4">Genuine reviews from our students and parents. Your feedback helps us improve!</p>
     </div>
     <div class="user-reviews-grid" id="userReviewsGrid">
       <!-- Populated from Firebase -->
     </div>
-    <div class="material-empty" id="noUserReviews" style="margin-top:20px">
+    <div class="material-empty" id="noUserReviews" style="margin-top:20px;background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12)">
       <div class="empty-icon">💬</div>
-      <h3>No reviews yet</h3>
-      <p>Be the first to share your experience!</p>
+      <h3 style="color:#fff">No reviews yet</h3>
+      <p style="color:#80cbc4">Be the first to share your experience!</p>
     </div>
   </div>
 </section>
@@ -324,15 +290,15 @@ function loadUserReviews() {
 
         const card = document.createElement('div');
         card.className = 'review-card reveal visible';
-        card.style.minWidth = 'auto';
+        card.style.cssText = 'min-width:auto;background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12)';
         card.innerHTML = `
           <div class="review-stars">${stars}</div>
-          <p>"${d.reviewText}"</p>
+          <p style="color:#b2dfdb">"${d.reviewText}"</p>
           <div class="review-author">
-            <div class="review-avatar" style="background:${color}">${initial}</div>
+            <div class="review-avatar" style="background:rgba(255,255,255,.15)">${initial}</div>
             <div>
-              <strong>${d.name}</strong>
-              <span>${d.classInfo}${date ? ' · ' + date : ''}</span>
+              <strong style="color:#fff">${d.name}</strong>
+              <span style="color:#80cbc4">${d.classInfo}${date ? ' · ' + date : ''}</span>
             </div>
           </div>
         `;
