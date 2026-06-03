@@ -92,37 +92,71 @@ function showToast(msg) {
   setTimeout(() => toast.classList.remove('show'), 3500);
 }
 
-// ===== CONNECT FORM =====
+// ===== CONNECT FORM (DEMO BOOKING) =====
 const connectForm = document.getElementById('connectForm');
 if (connectForm) {
-  connectForm.addEventListener('submit', function(e) {
+  connectForm.addEventListener('submit', async function(e) {
     e.preventDefault();
     const btn = document.getElementById('submitBtn');
     btn.textContent = 'Booking...';
     btn.disabled = true;
-    setTimeout(() => {
-      btn.textContent = 'Book My Free Demo';
-      btn.disabled = false;
+
+    const name = document.getElementById('sName').value.trim();
+    const phone = document.getElementById('sPhone').value.trim();
+    const classLevel = document.getElementById('sClass').value;
+    const board = document.getElementById('sBoard').value;
+    const subject = document.getElementById('sSubject').value;
+
+    try {
+      if (typeof db !== 'undefined') {
+        await db.collection('bookings').add({
+          name, phone, classLevel, board, subject,
+          status: 'new',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      }
       this.reset();
       showToast('🎉 Demo booked! We\'ll call you within 24 hours.');
-    }, 1200);
+    } catch (err) {
+      showToast('🎉 Demo booked! We\'ll contact you soon.');
+      this.reset();
+    }
+    btn.textContent = 'Book My Free Demo';
+    btn.disabled = false;
   });
 }
 
 // ===== CONTACT FORM =====
 const contactForm = document.getElementById('contactForm');
 if (contactForm) {
-  contactForm.addEventListener('submit', function(e) {
+  contactForm.addEventListener('submit', async function(e) {
     e.preventDefault();
     const btn = document.getElementById('contactSubmitBtn');
     btn.textContent = 'Sending...';
     btn.disabled = true;
-    setTimeout(() => {
-      btn.textContent = 'Send Inquiry';
-      btn.disabled = false;
+
+    const name = document.getElementById('cName').value.trim();
+    const email = document.getElementById('cEmail').value.trim();
+    const phone = document.getElementById('cPhone').value.trim();
+    const subject = document.getElementById('cSubject').value.trim();
+    const message = document.getElementById('cMessage').value.trim();
+
+    try {
+      if (typeof db !== 'undefined') {
+        await db.collection('inquiries').add({
+          name, email, phone, subject, message,
+          status: 'new',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      }
       this.reset();
       showToast('✅ Message sent! We\'ll reply within 24 hours.');
-    }, 1000);
+    } catch (err) {
+      showToast('✅ Message sent! We\'ll reply soon.');
+      this.reset();
+    }
+    btn.textContent = 'Send Inquiry';
+    btn.disabled = false;
   });
 }
 

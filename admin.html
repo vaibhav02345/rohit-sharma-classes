@@ -126,6 +126,26 @@
       </div>
     </div>
   </section>
+
+  <!-- BOOKINGS & INQUIRIES -->
+  <section class="section" style="padding-top:10px">
+    <div class="container">
+      <div class="admin-grid">
+        <div class="admin-materials-list">
+          <h3>📞 Demo Bookings <span class="admin-badge" id="bookingsCount" style="font-size:.72rem;margin-left:8px">0</span></h3>
+          <div id="bookingsList" class="admin-items-list">
+            <div class="admin-empty">Loading bookings...</div>
+          </div>
+        </div>
+        <div class="admin-materials-list">
+          <h3>📧 Contact Inquiries <span class="admin-badge" id="inquiriesCount" style="font-size:.72rem;margin-left:8px">0</span></h3>
+          <div id="inquiriesList" class="admin-items-list">
+            <div class="admin-empty">Loading inquiries...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -168,6 +188,8 @@ function showDashboard() {
   document.getElementById('adminBadge').style.display = 'inline-block';
   document.getElementById('logoutBtn').style.display = 'inline-block';
   loadAdminMaterials();
+  loadBookings();
+  loadInquiries();
 }
 
 function adminLogout() {
@@ -338,6 +360,117 @@ async function deleteMaterial(docId, storagePath) {
     }
     showToast('🗑️ Material deleted');
     loadAdminMaterials();
+  } catch (err) {
+    showToast('❌ Delete failed: ' + err.message);
+  }
+}
+
+// ===== LOAD BOOKINGS =====
+function loadBookings() {
+  db.collection('bookings').orderBy('createdAt', 'desc').get()
+    .then(snapshot => {
+      const list = document.getElementById('bookingsList');
+      const count = document.getElementById('bookingsCount');
+      list.innerHTML = '';
+      const newCount = snapshot.docs.filter(d => d.data().status === 'new').length;
+      count.textContent = newCount > 0 ? newCount + ' new' : snapshot.size;
+
+      if (snapshot.empty) {
+        list.innerHTML = '<div class="admin-empty">No demo bookings yet.</div>';
+        return;
+      }
+
+      snapshot.forEach(doc => {
+        const d = doc.data();
+        const date = d.createdAt ? new Date(d.createdAt.seconds * 1000).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : 'Just now';
+        const isNew = d.status === 'new';
+        const item = document.createElement('div');
+        item.className = 'admin-material-item';
+        if (isNew) item.style.borderLeftColor = 'var(--teal)';
+        if (isNew) item.style.borderLeftWidth = '3px';
+        item.innerHTML = `
+          <div class="admin-item-info">
+            <strong>${isNew ? '🔴 ' : '✅ '}${d.name}</strong>
+            <div class="admin-item-meta">
+              📱 ${d.phone} · ${d.classLevel} · ${d.board} · ${d.subject} · ${date}
+            </div>
+          </div>
+          <div class="admin-item-actions">
+            ${isNew ? `<button class="admin-action-btn view" onclick="markDone('bookings','${doc.id}')" title="Mark Done">✅</button>` : ''}
+            <button class="admin-action-btn delete" onclick="deleteEntry('bookings','${doc.id}')" title="Delete">🗑️</button>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }).catch(err => {
+      document.getElementById('bookingsList').innerHTML = '<div class="admin-empty">Error loading bookings.</div>';
+    });
+}
+
+// ===== LOAD INQUIRIES =====
+function loadInquiries() {
+  db.collection('inquiries').orderBy('createdAt', 'desc').get()
+    .then(snapshot => {
+      const list = document.getElementById('inquiriesList');
+      const count = document.getElementById('inquiriesCount');
+      list.innerHTML = '';
+      const newCount = snapshot.docs.filter(d => d.data().status === 'new').length;
+      count.textContent = newCount > 0 ? newCount + ' new' : snapshot.size;
+
+      if (snapshot.empty) {
+        list.innerHTML = '<div class="admin-empty">No inquiries yet.</div>';
+        return;
+      }
+
+      snapshot.forEach(doc => {
+        const d = doc.data();
+        const date = d.createdAt ? new Date(d.createdAt.seconds * 1000).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : 'Just now';
+        const isNew = d.status === 'new';
+        const item = document.createElement('div');
+        item.className = 'admin-material-item';
+        if (isNew) item.style.borderLeftColor = 'var(--teal)';
+        if (isNew) item.style.borderLeftWidth = '3px';
+        item.innerHTML = `
+          <div class="admin-item-info">
+            <strong>${isNew ? '🔴 ' : '✅ '}${d.name}</strong>
+            <div class="admin-item-meta">
+              📧 ${d.email || 'N/A'} · 📱 ${d.phone || 'N/A'} · ${date}
+            </div>
+            ${d.subject ? `<div class="admin-item-meta" style="margin-top:4px"><strong>Subject:</strong> ${d.subject}</div>` : ''}
+            ${d.message ? `<div class="admin-item-meta" style="margin-top:4px;color:var(--text2)">"${d.message.substring(0, 120)}${d.message.length > 120 ? '...' : ''}"</div>` : ''}
+          </div>
+          <div class="admin-item-actions">
+            ${isNew ? `<button class="admin-action-btn view" onclick="markDone('inquiries','${doc.id}')" title="Mark Done">✅</button>` : ''}
+            <button class="admin-action-btn delete" onclick="deleteEntry('inquiries','${doc.id}')" title="Delete">🗑️</button>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }).catch(err => {
+      document.getElementById('inquiriesList').innerHTML = '<div class="admin-empty">Error loading inquiries.</div>';
+    });
+}
+
+// ===== MARK AS DONE =====
+async function markDone(collection, docId) {
+  try {
+    await db.collection(collection).doc(docId).update({ status: 'done' });
+    showToast('✅ Marked as done');
+    if (collection === 'bookings') loadBookings();
+    else loadInquiries();
+  } catch (err) {
+    showToast('❌ Error: ' + err.message);
+  }
+}
+
+// ===== DELETE ENTRY =====
+async function deleteEntry(collection, docId) {
+  if (!confirm('Delete this entry?')) return;
+  try {
+    await db.collection(collection).doc(docId).delete();
+    showToast('🗑️ Deleted');
+    if (collection === 'bookings') loadBookings();
+    else loadInquiries();
   } catch (err) {
     showToast('❌ Delete failed: ' + err.message);
   }
