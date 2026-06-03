@@ -265,31 +265,33 @@
         const initial = d.name ? d.name.charAt(0).toUpperCase() : '?';
         const color = avatarColors[idx % avatarColors.length];
 
-        const card = document.createElement('div');
-        card.className = 'review-card reveal visible';
-        card.style.cssText = 'min-width:100%;flex-shrink:0;box-sizing:border-box';
-        card.innerHTML = `
-          <div class="review-stars">${stars}</div>
-          <p>"${d.reviewText}"</p>
-          <div class="review-author">
-            <div class="review-avatar" style="background:${color}">${initial}</div>
-            <div>
-              <strong>${d.name}</strong>
-              <span>${d.classInfo || ''}</span>
+        const slide = document.createElement('div');
+        slide.style.cssText = 'min-width:100%;flex-shrink:0;box-sizing:border-box;padding:0 16px';
+
+        slide.innerHTML = `
+          <div class="review-card reveal visible">
+            <div class="review-stars">${stars}</div>
+            <p>"${d.reviewText}"</p>
+            <div class="review-author">
+              <div class="review-avatar" style="background:${color}">${initial}</div>
+              <div>
+                <strong>${d.name}</strong>
+                <span>${d.classInfo || ''}</span>
+              </div>
             </div>
           </div>
         `;
-        track.appendChild(card);
+        track.appendChild(slide);
       });
 
       // Initialize carousel
-      const allCards = track.querySelectorAll('.review-card');
-      if (allCards.length > 1 && controls) {
+      const allSlides = track.children;
+      if (allSlides.length > 1 && controls) {
         controls.style.display = 'flex';
         let currentIdx = 0;
         let autoSlide;
 
-        allCards.forEach((_, i) => {
+        Array.from(allSlides).forEach((_, i) => {
           const dot = document.createElement('div');
           dot.className = 'dot' + (i === 0 ? ' active' : '');
           dot.addEventListener('click', () => { goTo(i); resetAuto(); });
@@ -297,7 +299,7 @@
         });
 
         function goTo(idx) {
-          currentIdx = (idx + allCards.length) % allCards.length;
+          currentIdx = (idx + allSlides.length) % allSlides.length;
           track.style.transform = `translateX(-${currentIdx * 100}%)`;
           dotsContainer.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentIdx));
         }
