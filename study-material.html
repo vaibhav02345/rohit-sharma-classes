@@ -131,31 +131,31 @@
 <script>
 // ===== LOAD MATERIALS FROM FIREBASE =====
 function loadMaterials() {
-  // Load Notes
-  db.collection('materials').where('category', '==', 'Notes').orderBy('uploadedAt', 'desc').get()
+  db.collection('materials').orderBy('uploadedAt', 'desc').get()
     .then(snapshot => {
-      const grid = document.getElementById('notesGrid');
-      const empty = document.getElementById('notesEmpty');
-      if (snapshot.empty) { empty.style.display = 'flex'; return; }
-      empty.style.display = 'none';
-      snapshot.forEach(doc => {
-        const d = doc.data();
-        grid.appendChild(createMaterialCard(d));
-      });
-    }).catch(err => console.log('Notes load error:', err));
+      const notesGrid = document.getElementById('notesGrid');
+      const notesEmpty = document.getElementById('notesEmpty');
+      const dppsGrid = document.getElementById('dppsGrid');
+      const dppsEmpty = document.getElementById('dppsEmpty');
+      
+      let hasNotes = false;
+      let hasDpps = false;
 
-  // Load DPPs / Question Bank
-  db.collection('materials').where('category', 'in', ['DPP', 'Question Bank']).orderBy('uploadedAt', 'desc').get()
-    .then(snapshot => {
-      const grid = document.getElementById('dppsGrid');
-      const empty = document.getElementById('dppsEmpty');
-      if (snapshot.empty) { empty.style.display = 'flex'; return; }
-      empty.style.display = 'none';
       snapshot.forEach(doc => {
         const d = doc.data();
-        grid.appendChild(createMaterialCard(d));
+        if (d.category === 'Notes') {
+          notesGrid.appendChild(createMaterialCard(d));
+          hasNotes = true;
+        } else if (d.category === 'DPP' || d.category === 'Question Bank') {
+          dppsGrid.appendChild(createMaterialCard(d));
+          hasDpps = true;
+        }
       });
-    }).catch(err => console.log('DPPs load error:', err));
+
+      if (hasNotes) notesEmpty.style.display = 'none';
+      if (hasDpps) dppsEmpty.style.display = 'none';
+
+    }).catch(err => console.log('Materials load error:', err));
 }
 
 function createMaterialCard(d) {
