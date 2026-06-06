@@ -54,12 +54,29 @@
       <p>Comprehensive study notes uploaded by Rohit Sir. Download and study at your own pace.</p>
     </div>
 
-    <div class="material-filters">
-      <button class="mat-filter-btn active" data-filter="all" data-section="notes">All</button>
-      <button class="mat-filter-btn" data-filter="Physics" data-section="notes">Physics</button>
-      <button class="mat-filter-btn" data-filter="Chemistry" data-section="notes">Chemistry</button>
-      <button class="mat-filter-btn" data-filter="Mathematics" data-section="notes">Mathematics</button>
-      <button class="mat-filter-btn" data-filter="Biology" data-section="notes">Biology</button>
+    <div class="material-filters" style="flex-direction: column; gap: 15px; align-items: center;">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;width:100%">
+        <select class="mat-select-filter" data-section="notes" data-filter-type="class" style="padding:8px 16px; border-radius:20px; border:1px solid var(--border); background:var(--bg); font-family:inherit; font-size:0.9rem; color:var(--text); cursor:pointer; outline:none;">
+          <option value="all">All Classes</option>
+          <option value="Class 9">Class 9</option>
+          <option value="Class 10">Class 10</option>
+          <option value="Class 11">Class 11</option>
+          <option value="Class 12">Class 12</option>
+        </select>
+        <select class="mat-select-filter" data-section="notes" data-filter-type="board" style="padding:8px 16px; border-radius:20px; border:1px solid var(--border); background:var(--bg); font-family:inherit; font-size:0.9rem; color:var(--text); cursor:pointer; outline:none;">
+          <option value="all">All Boards</option>
+          <option value="CBSE">CBSE</option>
+          <option value="ICSE/ISC">ICSE/ISC</option>
+          <option value="General">General</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;width:100%">
+        <button class="mat-filter-btn active" data-filter="all" data-section="notes">All Subjects</button>
+        <button class="mat-filter-btn" data-filter="Physics" data-section="notes">Physics</button>
+        <button class="mat-filter-btn" data-filter="Chemistry" data-section="notes">Chemistry</button>
+        <button class="mat-filter-btn" data-filter="Mathematics" data-section="notes">Mathematics</button>
+        <button class="mat-filter-btn" data-filter="Biology" data-section="notes">Biology</button>
+      </div>
     </div>
 
     <div class="materials-grid" id="notesGrid">
@@ -81,12 +98,29 @@
       <p>Daily Practice Problems and question banks to sharpen your problem-solving skills.</p>
     </div>
 
-    <div class="material-filters">
-      <button class="mat-filter-btn active" data-filter="all" data-section="dpps">All</button>
-      <button class="mat-filter-btn" data-filter="Physics" data-section="dpps">Physics</button>
-      <button class="mat-filter-btn" data-filter="Chemistry" data-section="dpps">Chemistry</button>
-      <button class="mat-filter-btn" data-filter="Mathematics" data-section="dpps">Mathematics</button>
-      <button class="mat-filter-btn" data-filter="Biology" data-section="dpps">Biology</button>
+    <div class="material-filters" style="flex-direction: column; gap: 15px; align-items: center;">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;width:100%">
+        <select class="mat-select-filter" data-section="dpps" data-filter-type="class" style="padding:8px 16px; border-radius:20px; border:1px solid var(--border); background:var(--bg); font-family:inherit; font-size:0.9rem; color:var(--text); cursor:pointer; outline:none;">
+          <option value="all">All Classes</option>
+          <option value="Class 9">Class 9</option>
+          <option value="Class 10">Class 10</option>
+          <option value="Class 11">Class 11</option>
+          <option value="Class 12">Class 12</option>
+        </select>
+        <select class="mat-select-filter" data-section="dpps" data-filter-type="board" style="padding:8px 16px; border-radius:20px; border:1px solid var(--border); background:var(--bg); font-family:inherit; font-size:0.9rem; color:var(--text); cursor:pointer; outline:none;">
+          <option value="all">All Boards</option>
+          <option value="CBSE">CBSE</option>
+          <option value="ICSE/ISC">ICSE/ISC</option>
+          <option value="General">General</option>
+        </select>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;width:100%">
+        <button class="mat-filter-btn active" data-filter="all" data-section="dpps">All Subjects</button>
+        <button class="mat-filter-btn" data-filter="Physics" data-section="dpps">Physics</button>
+        <button class="mat-filter-btn" data-filter="Chemistry" data-section="dpps">Chemistry</button>
+        <button class="mat-filter-btn" data-filter="Mathematics" data-section="dpps">Mathematics</button>
+        <button class="mat-filter-btn" data-filter="Biology" data-section="dpps">Biology</button>
+      </div>
     </div>
 
     <div class="materials-grid" id="dppsGrid">
@@ -162,6 +196,8 @@ function createMaterialCard(d) {
   const card = document.createElement('div');
   card.className = 'material-card reveal visible';
   card.setAttribute('data-subject', d.subject || '');
+  card.setAttribute('data-class', d.classLevel || '');
+  card.setAttribute('data-board', d.board || '');
   const subjectColors = {
     'Physics': { bg: 'rgba(13,148,136,.12)', color: 'var(--teal)', icon: '⚛️' },
     'Chemistry': { bg: 'rgba(6,182,212,.12)', color: 'var(--cyan)', icon: '🧪' },
@@ -179,34 +215,57 @@ function createMaterialCard(d) {
       <h3>${d.title}</h3>
       <div class="material-meta">
         <span>📚 ${d.classLevel || ''}</span>
+        ${d.board ? `<span>🎓 ${d.board}</span>` : ''}
         <span>📅 ${date}</span>
       </div>
       <div class="material-card-footer">
         <span class="material-type-badge">${d.category}</span>
-        <a href="${d.downloadURL}" target="_blank" class="btn-card" download>📥 Download</a>
+        <div style="display:flex; gap:8px">
+          ${d.previewURL ? `<a href="${d.previewURL}" target="_blank" class="btn-card" style="background:var(--bg2);color:var(--text);border:1px solid var(--border)">👁️ Preview</a>` : ''}
+          <a href="${d.downloadURL}" target="_blank" class="btn-card" download>📥 ${d.previewURL ? 'Get' : 'Download'}</a>
+        </div>
       </div>
     </div>
   `;
   return card;
 }
 
-// Filter buttons
+// Filter buttons & dropdowns
+function applyFilters(section) {
+  const classFilter = document.querySelector(`.mat-select-filter[data-section="${section}"][data-filter-type="class"]`).value;
+  const boardFilter = document.querySelector(`.mat-select-filter[data-section="${section}"][data-filter-type="board"]`).value;
+  const subjectFilter = document.querySelector(`.mat-filter-btn.active[data-section="${section}"]`).dataset.filter;
+
+  const gridId = section === 'notes' ? 'notesGrid' : 'dppsGrid';
+  document.querySelectorAll(`#${gridId} .material-card`).forEach(card => {
+    const cardSubject = card.dataset.subject;
+    const cardClass = card.dataset.class;
+    const cardBoard = card.dataset.board;
+
+    const matchSubject = subjectFilter === 'all' || cardSubject === subjectFilter;
+    const matchClass = classFilter === 'all' || cardClass === classFilter;
+    const matchBoard = boardFilter === 'all' || cardBoard === boardFilter;
+
+    if (matchSubject && matchClass && matchBoard) {
+      card.style.display = '';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
 document.querySelectorAll('.mat-filter-btn').forEach(btn => {
   btn.addEventListener('click', function() {
     const section = this.dataset.section;
-    const filter = this.dataset.filter;
-    // Update active states within same section
     document.querySelectorAll(`.mat-filter-btn[data-section="${section}"]`).forEach(b => b.classList.remove('active'));
     this.classList.add('active');
-    // Filter cards
-    const gridId = section === 'notes' ? 'notesGrid' : 'dppsGrid';
-    document.querySelectorAll(`#${gridId} .material-card`).forEach(card => {
-      if (filter === 'all' || card.dataset.subject === filter) {
-        card.style.display = '';
-      } else {
-        card.style.display = 'none';
-      }
-    });
+    applyFilters(section);
+  });
+});
+
+document.querySelectorAll('.mat-select-filter').forEach(select => {
+  select.addEventListener('change', function() {
+    applyFilters(this.dataset.section);
   });
 });
 

@@ -63,7 +63,7 @@
               <label for="matTitle">Title</label>
               <input type="text" id="matTitle" placeholder="e.g. Chapter 5 — Electrostatics Notes" required/>
             </div>
-            <div class="form-row">
+            <div class="form-row" style="grid-template-columns: 1fr 1fr 1fr">
               <div class="form-group">
                 <label for="matSubject">Subject</label>
                 <select id="matSubject" required>
@@ -82,6 +82,15 @@
                   <option>Class 10</option>
                   <option>Class 11</option>
                   <option>Class 12</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="matBoard">Board</label>
+                <select id="matBoard" required>
+                  <option value="">Select</option>
+                  <option>CBSE</option>
+                  <option>ICSE/ISC</option>
+                  <option>General</option>
                 </select>
               </div>
             </div>
@@ -294,6 +303,7 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
   const title = document.getElementById('matTitle').value.trim();
   const subject = document.getElementById('matSubject').value;
   const classLevel = document.getElementById('matClass').value;
+  const board = document.getElementById('matBoard').value;
   const category = document.getElementById('matCategory').value;
 
   const btn = document.getElementById('uploadBtn');
@@ -316,7 +326,7 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
     try {
       const links = convertDriveLink(driveLink);
       await db.collection('materials').add({
-        title, subject, classLevel, category,
+        title, subject, classLevel, board, category,
         fileName: 'Google Drive File',
         storagePath: '',
         source: 'gdrive',
@@ -367,7 +377,7 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
       async () => {
         const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
         await db.collection('materials').add({
-          title, subject, classLevel, category,
+          title, subject, classLevel, board, category,
           fileName: file.name,
           storagePath: 'materials/' + fileName,
           source: 'firebase',
@@ -417,7 +427,7 @@ function loadAdminMaterials() {
           <div class="admin-item-info">
             <strong>${d.title}</strong>
             <div class="admin-item-meta">
-              <span>${d.subject}</span> · <span>${d.classLevel}</span> · <span>${d.category}</span> · ${sourceBadge} · <span>${date}</span>
+              <span>${d.subject}</span> · <span>${d.classLevel}</span> ${d.board ? '· <span>' + d.board + '</span>' : ''} · <span>${d.category}</span> · ${sourceBadge} · <span>${date}</span>
             </div>
           </div>
           <div class="admin-item-actions">
