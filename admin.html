@@ -434,7 +434,7 @@ function loadInquiries() {
           <div class="admin-item-info">
             <strong>${isNew ? '🔴 ' : '✅ '}${d.name}</strong>
             <div class="admin-item-meta">
-              📧 ${d.email || 'N/A'} · 📱 ${d.phone || 'N/A'} · ${date}
+              📧 ${d.email || 'N/A'} · 📱 ${d.phone || 'N/A'} · ${d.grade ? d.grade + ' · ' : ''}${date}
             </div>
             ${d.subject ? `<div class="admin-item-meta" style="margin-top:4px"><strong>Subject:</strong> ${d.subject}</div>` : ''}
             ${d.message ? `<div class="admin-item-meta" style="margin-top:4px;color:var(--text2)">"${d.message.substring(0, 120)}${d.message.length > 120 ? '...' : ''}"</div>` : ''}

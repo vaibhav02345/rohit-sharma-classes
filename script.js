@@ -107,13 +107,14 @@ if (contactForm) {
     const name = document.getElementById('cName').value.trim();
     const email = document.getElementById('cEmail').value.trim();
     const phone = document.getElementById('cPhone').value.trim();
-    const subject = document.getElementById('cSubject').value.trim();
-    const message = document.getElementById('cMessage').value.trim();
+    const grade = document.getElementById('cGrade') ? document.getElementById('cGrade').value : '';
+    const subject = document.getElementById('cSubject') ? document.getElementById('cSubject').value.trim() : '';
+    const message = document.getElementById('cMessage') ? document.getElementById('cMessage').value.trim() : '';
 
     try {
       if (typeof db !== 'undefined') {
         await db.collection('inquiries').add({
-          name, email, phone, subject, message,
+          name, email, phone, grade, subject, message,
           status: 'new',
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
