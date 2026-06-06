@@ -53,6 +53,11 @@
         <!-- UPLOAD FORM -->
         <div class="admin-upload-card">
           <h3>📤 Upload New Material</h3>
+          <!-- Upload Mode Toggle -->
+          <div style="display:flex;gap:6px;margin-bottom:20px;background:var(--bg2);border-radius:10px;padding:4px;border:1px solid var(--border)">
+            <button type="button" class="tab-btn active" id="modeDrive" onclick="setUploadMode('drive')" style="flex:1;padding:8px 12px;font-size:.8rem;border-radius:8px">🔗 Google Drive Link</button>
+            <button type="button" class="tab-btn" id="modeFile" onclick="setUploadMode('file')" style="flex:1;padding:8px 12px;font-size:.8rem;border-radius:8px">📎 Upload PDF</button>
+          </div>
           <form id="uploadForm">
             <div class="form-group">
               <label for="matTitle">Title</label>
@@ -89,24 +94,35 @@
                 <option>Question Bank</option>
               </select>
             </div>
-            <div class="form-group">
-              <label for="matFile">PDF File</label>
-              <div class="file-upload-area" id="fileDropArea">
-                <input type="file" id="matFile" accept=".pdf" required style="display:none"/>
-                <div class="file-upload-content" id="fileUploadContent">
-                  <span class="file-upload-icon">📎</span>
-                  <p>Click to select PDF or drag & drop</p>
-                  <small>Max size: 10 MB</small>
-                </div>
-                <div class="file-selected" id="fileSelected" style="display:none">
-                  <span>📄</span>
-                  <span id="fileName"></span>
-                  <button type="button" class="file-remove" onclick="removeFile()">✕</button>
+            <!-- GOOGLE DRIVE LINK MODE (default) -->
+            <div id="driveMode">
+              <div class="form-group">
+                <label for="matDriveLink">Google Drive Link</label>
+                <input type="url" id="matDriveLink" placeholder="https://drive.google.com/file/d/..."/>
+                <small style="color:var(--text3);font-size:.75rem;margin-top:6px;display:block">📌 Right-click file in Drive → Share → "Anyone with the link" → Copy link</small>
+              </div>
+            </div>
+            <!-- FILE UPLOAD MODE (hidden by default) -->
+            <div id="fileMode" style="display:none">
+              <div class="form-group">
+                <label for="matFile">PDF File</label>
+                <div class="file-upload-area" id="fileDropArea">
+                  <input type="file" id="matFile" accept=".pdf" style="display:none"/>
+                  <div class="file-upload-content" id="fileUploadContent">
+                    <span class="file-upload-icon">📎</span>
+                    <p>Click to select PDF or drag & drop</p>
+                    <small>Max size: 10 MB</small>
+                  </div>
+                  <div class="file-selected" id="fileSelected" style="display:none">
+                    <span>📄</span>
+                    <span id="fileName"></span>
+                    <button type="button" class="file-remove" onclick="removeFile()">✕</button>
+                  </div>
                 </div>
               </div>
             </div>
             <button type="submit" class="btn-primary full-btn" id="uploadBtn">
-              <span id="uploadBtnText">Upload Material</span>
+              <span id="uploadBtnText">Add Material</span>
             </button>
             <div class="upload-progress" id="uploadProgress" style="display:none">
               <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
@@ -205,6 +221,42 @@ if (sessionStorage.getItem('adminLoggedIn') === 'true') {
   showDashboard();
 }
 
+// ===== UPLOAD MODE TOGGLE =====
+let currentUploadMode = 'drive';
+function setUploadMode(mode) {
+  currentUploadMode = mode;
+  document.getElementById('driveMode').style.display = mode === 'drive' ? 'block' : 'none';
+  document.getElementById('fileMode').style.display = mode === 'file' ? 'block' : 'none';
+  document.getElementById('modeDrive').classList.toggle('active', mode === 'drive');
+  document.getElementById('modeFile').classList.toggle('active', mode === 'file');
+  document.getElementById('uploadBtnText').textContent = mode === 'drive' ? 'Add Material' : 'Upload Material';
+}
+
+// ===== CONVERT GOOGLE DRIVE LINK =====
+function convertDriveLink(url) {
+  // Convert various Google Drive URL formats to a direct viewable/downloadable link
+  // Format: https://drive.google.com/file/d/FILE_ID/view?...
+  let match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (match) {
+    return {
+      viewURL: 'https://drive.google.com/file/d/' + match[1] + '/view',
+      downloadURL: 'https://drive.google.com/uc?export=download&id=' + match[1],
+      previewURL: 'https://drive.google.com/file/d/' + match[1] + '/preview'
+    };
+  }
+  // Format: https://drive.google.com/open?id=FILE_ID
+  match = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (match) {
+    return {
+      viewURL: 'https://drive.google.com/file/d/' + match[1] + '/view',
+      downloadURL: 'https://drive.google.com/uc?export=download&id=' + match[1],
+      previewURL: 'https://drive.google.com/file/d/' + match[1] + '/preview'
+    };
+  }
+  // If no match, just return the original URL
+  return { viewURL: url, downloadURL: url, previewURL: url };
+}
+
 // ===== FILE UPLOAD UI =====
 const fileInput = document.getElementById('matFile');
 const dropArea = document.getElementById('fileDropArea');
@@ -236,18 +288,13 @@ function removeFile() {
   document.getElementById('fileSelected').style.display = 'none';
 }
 
-// ===== UPLOAD MATERIAL =====
+// ===== UPLOAD MATERIAL (BOTH MODES) =====
 document.getElementById('uploadForm').addEventListener('submit', async function(e) {
   e.preventDefault();
   const title = document.getElementById('matTitle').value.trim();
   const subject = document.getElementById('matSubject').value;
   const classLevel = document.getElementById('matClass').value;
   const category = document.getElementById('matCategory').value;
-  const file = fileInput.files[0];
-
-  if (!file) { showToast('❌ Please select a PDF file'); return; }
-  if (file.size > 10 * 1024 * 1024) { showToast('❌ File too large. Max 10 MB.'); return; }
-  if (file.type !== 'application/pdf') { showToast('❌ Only PDF files are allowed.'); return; }
 
   const btn = document.getElementById('uploadBtn');
   const btnText = document.getElementById('uploadBtnText');
@@ -255,12 +302,52 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
   const progressFill = document.getElementById('progressFill');
   const progressText = document.getElementById('progressText');
 
+  // ===== GOOGLE DRIVE LINK MODE =====
+  if (currentUploadMode === 'drive') {
+    const driveLink = document.getElementById('matDriveLink').value.trim();
+    if (!driveLink) { showToast('❌ Please paste a Google Drive link'); return; }
+    if (!driveLink.includes('drive.google.com') && !driveLink.includes('docs.google.com')) {
+      showToast('❌ Please enter a valid Google Drive link'); return;
+    }
+
+    btn.disabled = true;
+    btnText.textContent = 'Saving...';
+
+    try {
+      const links = convertDriveLink(driveLink);
+      await db.collection('materials').add({
+        title, subject, classLevel, category,
+        fileName: 'Google Drive File',
+        storagePath: '',
+        source: 'gdrive',
+        driveLink: driveLink,
+        downloadURL: links.viewURL,
+        previewURL: links.previewURL,
+        uploadedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      showToast('✅ Material added successfully!');
+      this.reset();
+      setUploadMode('drive');
+      loadAdminMaterials();
+    } catch (err) {
+      showToast('❌ Error: ' + err.message);
+    }
+    btn.disabled = false;
+    btnText.textContent = 'Add Material';
+    return;
+  }
+
+  // ===== FILE UPLOAD MODE =====
+  const file = fileInput.files[0];
+  if (!file) { showToast('❌ Please select a PDF file'); return; }
+  if (file.size > 10 * 1024 * 1024) { showToast('❌ File too large. Max 10 MB.'); return; }
+  if (file.type !== 'application/pdf') { showToast('❌ Only PDF files are allowed.'); return; }
+
   btn.disabled = true;
   btnText.textContent = 'Uploading...';
   progressDiv.style.display = 'flex';
 
   try {
-    // Upload file to Firebase Storage
     const fileName = Date.now() + '_' + file.name.replace(/\s+/g, '_');
     const storageRef = storage.ref('materials/' + fileName);
     const uploadTask = storageRef.put(file);
@@ -278,21 +365,15 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
         progressDiv.style.display = 'none';
       },
       async () => {
-        // Get download URL
         const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
-
-        // Save metadata to Firestore
         await db.collection('materials').add({
-          title,
-          subject,
-          classLevel,
-          category,
+          title, subject, classLevel, category,
           fileName: file.name,
           storagePath: 'materials/' + fileName,
+          source: 'firebase',
           downloadURL,
           uploadedAt: firebase.firestore.FieldValue.serverTimestamp()
         });
-
         showToast('✅ Material uploaded successfully!');
         btn.disabled = false;
         btnText.textContent = 'Upload Material';
@@ -328,18 +409,20 @@ function loadAdminMaterials() {
       snapshot.forEach(doc => {
         const d = doc.data();
         const date = d.uploadedAt ? new Date(d.uploadedAt.seconds * 1000).toLocaleDateString('en-IN') : 'Just now';
+        const isDrive = d.source === 'gdrive';
+        const sourceBadge = isDrive ? '<span style="background:rgba(66,133,244,.15);color:#4285f4;padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:600">🔗 Drive</span>' : '<span style="background:rgba(13,148,136,.12);color:var(--teal);padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:600">📎 File</span>';
         const item = document.createElement('div');
         item.className = 'admin-material-item';
         item.innerHTML = `
           <div class="admin-item-info">
             <strong>${d.title}</strong>
             <div class="admin-item-meta">
-              <span>${d.subject}</span> · <span>${d.classLevel}</span> · <span>${d.category}</span> · <span>${date}</span>
+              <span>${d.subject}</span> · <span>${d.classLevel}</span> · <span>${d.category}</span> · ${sourceBadge} · <span>${date}</span>
             </div>
           </div>
           <div class="admin-item-actions">
             <a href="${d.downloadURL}" target="_blank" class="admin-action-btn view">📥</a>
-            <button class="admin-action-btn delete" onclick="deleteMaterial('${doc.id}', '${d.storagePath}', this)">🗑️</button>
+            <button class="admin-action-btn delete" onclick="deleteMaterial('${doc.id}', '${d.storagePath || ''}', this)">🗑️</button>
           </div>
         `;
         list.appendChild(item);
