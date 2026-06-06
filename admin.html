@@ -339,7 +339,7 @@ function loadAdminMaterials() {
           </div>
           <div class="admin-item-actions">
             <a href="${d.downloadURL}" target="_blank" class="admin-action-btn view">📥</a>
-            <button class="admin-action-btn delete" onclick="deleteMaterial('${doc.id}', '${d.storagePath}')">🗑️</button>
+            <button class="admin-action-btn delete" onclick="deleteMaterial('${doc.id}', '${d.storagePath}', this)">🗑️</button>
           </div>
         `;
         list.appendChild(item);
@@ -351,17 +351,28 @@ function loadAdminMaterials() {
 }
 
 // ===== DELETE MATERIAL =====
-async function deleteMaterial(docId, storagePath) {
+async function deleteMaterial(docId, storagePath, btn) {
   if (!confirm('Are you sure you want to delete this material?')) return;
-  try {
-    await db.collection('materials').doc(docId).delete();
-    if (storagePath) {
-      await storage.ref(storagePath).delete();
-    }
-    showToast('🗑️ Material deleted');
-    loadAdminMaterials();
-  } catch (err) {
+  // Instant UI update
+  const item = btn.closest('.admin-material-item');
+  if (item) {
+    item.style.transition = 'opacity 0.3s, transform 0.3s';
+    item.style.opacity = '0';
+    item.style.transform = 'translateX(30px)';
+    setTimeout(() => item.remove(), 300);
+  }
+  // Update count instantly
+  const countEl = document.getElementById('materialsCount');
+  const currentCount = parseInt(countEl.textContent) || 0;
+  if (currentCount > 0) countEl.textContent = (currentCount - 1) + ' material(s) uploaded';
+  showToast('🗑️ Material deleted');
+  // Background Firebase sync
+  db.collection('materials').doc(docId).delete().catch(err => {
     showToast('❌ Delete failed: ' + err.message);
+    loadAdminMaterials();
+  });
+  if (storagePath) {
+    storage.ref(storagePath).delete().catch(() => {});
   }
 }
 
@@ -396,8 +407,8 @@ function loadBookings() {
             </div>
           </div>
           <div class="admin-item-actions">
-            ${isNew ? `<button class="admin-action-btn view" onclick="markDone('bookings','${doc.id}')" title="Mark Done">✅</button>` : ''}
-            <button class="admin-action-btn delete" onclick="deleteEntry('bookings','${doc.id}')" title="Delete">🗑️</button>
+            ${isNew ? `<button class="admin-action-btn view" onclick="markDone('bookings','${doc.id}', this)" title="Mark Done">✅</button>` : ''}
+            <button class="admin-action-btn delete" onclick="deleteEntry('bookings','${doc.id}', this)" title="Delete">🗑️</button>
           </div>
         `;
         list.appendChild(item);
@@ -440,8 +451,8 @@ function loadInquiries() {
             ${d.message ? `<div class="admin-item-meta" style="margin-top:4px;color:var(--text2)">"${d.message.substring(0, 120)}${d.message.length > 120 ? '...' : ''}"</div>` : ''}
           </div>
           <div class="admin-item-actions">
-            ${isNew ? `<button class="admin-action-btn view" onclick="markDone('inquiries','${doc.id}')" title="Mark Done">✅</button>` : ''}
-            <button class="admin-action-btn delete" onclick="deleteEntry('inquiries','${doc.id}')" title="Delete">🗑️</button>
+            ${isNew ? `<button class="admin-action-btn view" onclick="markDone('inquiries','${doc.id}', this)" title="Mark Done">✅</button>` : ''}
+            <button class="admin-action-btn delete" onclick="deleteEntry('inquiries','${doc.id}', this)" title="Delete">🗑️</button>
           </div>
         `;
         list.appendChild(item);
@@ -452,28 +463,56 @@ function loadInquiries() {
 }
 
 // ===== MARK AS DONE =====
-async function markDone(collection, docId) {
-  try {
-    await db.collection(collection).doc(docId).update({ status: 'done' });
-    showToast('✅ Marked as done');
-    if (collection === 'bookings') loadBookings();
-    else loadInquiries();
-  } catch (err) {
-    showToast('❌ Error: ' + err.message);
+function markDone(collection, docId, btn) {
+  const item = btn.closest('.admin-material-item');
+  if (item) {
+    // Instant UI: change appearance to "done"
+    item.style.borderLeftColor = 'transparent';
+    item.style.borderLeftWidth = '1px';
+    const strong = item.querySelector('strong');
+    if (strong) strong.textContent = strong.textContent.replace('🔴 ', '✅ ');
+    // Remove the tick button instantly
+    btn.style.transition = 'opacity 0.2s';
+    btn.style.opacity = '0';
+    setTimeout(() => btn.remove(), 200);
+    // Update badge count
+    const countId = collection === 'bookings' ? 'bookingsCount' : 'inquiriesCount';
+    const countEl = document.getElementById(countId);
+    const cur = parseInt(countEl.textContent) || 0;
+    countEl.textContent = cur > 1 ? (cur - 1) + ' new' : '0';
   }
+  showToast('✅ Marked as done');
+  // Background Firebase sync
+  db.collection(collection).doc(docId).update({ status: 'done' }).catch(err => {
+    showToast('❌ Sync failed: ' + err.message);
+    if (collection === 'bookings') loadBookings(); else loadInquiries();
+  });
 }
 
 // ===== DELETE ENTRY =====
-async function deleteEntry(collection, docId) {
+function deleteEntry(collection, docId, btn) {
   if (!confirm('Delete this entry?')) return;
-  try {
-    await db.collection(collection).doc(docId).delete();
-    showToast('🗑️ Deleted');
-    if (collection === 'bookings') loadBookings();
-    else loadInquiries();
-  } catch (err) {
-    showToast('❌ Delete failed: ' + err.message);
+  const item = btn.closest('.admin-material-item');
+  if (item) {
+    // Instant UI: animate out
+    item.style.transition = 'opacity 0.3s, transform 0.3s, max-height 0.3s';
+    item.style.opacity = '0';
+    item.style.transform = 'translateX(30px)';
+    setTimeout(() => {
+      item.style.maxHeight = '0';
+      item.style.overflow = 'hidden';
+      item.style.padding = '0';
+      item.style.margin = '0';
+      item.style.border = 'none';
+      setTimeout(() => item.remove(), 200);
+    }, 300);
   }
+  showToast('🗑️ Deleted');
+  // Background Firebase sync
+  db.collection(collection).doc(docId).delete().catch(err => {
+    showToast('❌ Delete failed: ' + err.message);
+    if (collection === 'bookings') loadBookings(); else loadInquiries();
+  });
 }
 
 // ===== NAVBAR SCROLL =====
