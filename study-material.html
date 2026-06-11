@@ -199,6 +199,15 @@
 <script src="script.js"></script>
 <script>
 // ===== FILE PREVIEW MODAL =====
+function getFileIdFromUrl(url) {
+  // Extract Google Drive file ID from various URL formats
+  let match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (match) return match[1];
+  match = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (match) return match[1];
+  return null;
+}
+
 function openPreview(previewURL, downloadURL, title, subtitle) {
   const modal = document.getElementById('previewModal');
   const iframe = document.getElementById('previewIframe');
@@ -209,10 +218,18 @@ function openPreview(previewURL, downloadURL, title, subtitle) {
   document.getElementById('previewOpenNew').href = previewURL.replace('/preview', '/view');
   document.getElementById('previewDownload').href = downloadURL || previewURL;
 
+  // Convert Google Drive preview URL to direct export URL to avoid sign-in wall
+  let embedURL = previewURL;
+  const fileId = getFileIdFromUrl(previewURL);
+  if (fileId) {
+    // Use direct export URL — browser renders PDF natively without Google sign-in
+    embedURL = 'https://drive.google.com/uc?id=' + fileId + '&export=view';
+  }
+
   // Show loading, hide iframe initially
   loading.style.display = 'flex';
   iframe.style.opacity = '0';
-  iframe.src = previewURL;
+  iframe.src = embedURL;
 
   iframe.onload = function() {
     loading.style.display = 'none';
