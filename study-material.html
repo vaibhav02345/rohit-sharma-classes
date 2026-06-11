@@ -154,6 +154,41 @@
     <div class="footer-bottom"><p>&copy; 2025 Rohit Sharma Classes. All rights reserved.</p></div>
   </div>
 </footer>
+<!-- FILE PREVIEW MODAL -->
+<div class="preview-modal-overlay" id="previewModal">
+  <div class="preview-modal">
+    <div class="preview-modal-header">
+      <div class="preview-modal-title-area">
+        <span class="preview-modal-icon">📄</span>
+        <div>
+          <h3 id="previewTitle">Document Preview</h3>
+          <span class="preview-modal-subtitle" id="previewSubtitle"></span>
+        </div>
+      </div>
+      <div class="preview-modal-actions">
+        <a href="#" id="previewOpenNew" target="_blank" class="preview-action-btn" title="Open in new tab">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          <span>Open</span>
+        </a>
+        <a href="#" id="previewDownload" target="_blank" class="preview-action-btn download-btn" title="Download file">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Download</span>
+        </a>
+        <button class="preview-close-btn" onclick="closePreview()" title="Close preview">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="preview-modal-body">
+      <div class="preview-loading" id="previewLoading">
+        <div class="preview-spinner"></div>
+        <p>Loading preview…</p>
+      </div>
+      <iframe id="previewIframe" class="preview-iframe" src="" allow="autoplay" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <!-- Firebase SDK -->
@@ -163,6 +198,50 @@
 <script src="firebase-config.js"></script>
 <script src="script.js"></script>
 <script>
+// ===== FILE PREVIEW MODAL =====
+function openPreview(previewURL, downloadURL, title, subtitle) {
+  const modal = document.getElementById('previewModal');
+  const iframe = document.getElementById('previewIframe');
+  const loading = document.getElementById('previewLoading');
+
+  document.getElementById('previewTitle').textContent = title || 'Document Preview';
+  document.getElementById('previewSubtitle').textContent = subtitle || '';
+  document.getElementById('previewOpenNew').href = previewURL.replace('/preview', '/view');
+  document.getElementById('previewDownload').href = downloadURL || previewURL;
+
+  // Show loading, hide iframe initially
+  loading.style.display = 'flex';
+  iframe.style.opacity = '0';
+  iframe.src = previewURL;
+
+  iframe.onload = function() {
+    loading.style.display = 'none';
+    iframe.style.opacity = '1';
+  };
+
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePreview() {
+  const modal = document.getElementById('previewModal');
+  const iframe = document.getElementById('previewIframe');
+  modal.classList.remove('active');
+  document.body.style.overflow = '';
+  // Clear iframe after animation
+  setTimeout(() => { iframe.src = ''; }, 300);
+}
+
+// Close on overlay click
+document.getElementById('previewModal').addEventListener('click', function(e) {
+  if (e.target === this) closePreview();
+});
+
+// Close on Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closePreview();
+});
+
 // ===== LOAD MATERIALS FROM FIREBASE =====
 function loadMaterials() {
   db.collection('materials').orderBy('uploadedAt', 'desc').get()
@@ -206,6 +285,7 @@ function createMaterialCard(d) {
   };
   const sc = subjectColors[d.subject] || { bg: 'rgba(13,148,136,.12)', color: 'var(--teal)', icon: '📄' };
   const date = d.uploadedAt ? new Date(d.uploadedAt.seconds * 1000).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+  const subtitle = [d.subject, d.classLevel, d.board].filter(Boolean).join(' · ');
   card.innerHTML = `
     <div class="material-card-header" style="background:${sc.bg}">
       <span class="material-icon">${sc.icon}</span>
@@ -221,7 +301,7 @@ function createMaterialCard(d) {
       <div class="material-card-footer">
         <span class="material-type-badge">${d.category}</span>
         <div style="display:flex; gap:8px">
-          ${d.previewURL ? `<a href="${d.previewURL}" target="_blank" class="btn-card" style="background:var(--bg2);color:var(--text);border:1px solid var(--border)">👁️ Preview</a>` : ''}
+          ${d.previewURL ? `<button onclick="openPreview('${d.previewURL}', '${d.downloadURL}', '${d.title.replace(/'/g, "\\'")}', '${subtitle.replace(/'/g, "\\'")}')" class="btn-card preview-btn-card">👁️ Preview</button>` : ''}
           <a href="${d.downloadURL}" target="_blank" class="btn-card" download>📥 ${d.previewURL ? 'Get' : 'Download'}</a>
         </div>
       </div>
