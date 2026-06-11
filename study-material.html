@@ -218,12 +218,12 @@ function openPreview(previewURL, downloadURL, title, subtitle) {
   document.getElementById('previewOpenNew').href = previewURL.replace('/preview', '/view');
   document.getElementById('previewDownload').href = downloadURL || previewURL;
 
-  // Convert Google Drive preview URL to direct export URL to avoid sign-in wall
+  // Use Google Docs Viewer to render the PDF inline (no sign-in, no download)
   let embedURL = previewURL;
   const fileId = getFileIdFromUrl(previewURL);
   if (fileId) {
-    // Use direct export URL — browser renders PDF natively without Google sign-in
-    embedURL = 'https://drive.google.com/uc?id=' + fileId + '&export=view';
+    const driveDownloadURL = 'https://drive.google.com/uc?id=' + fileId + '&export=download';
+    embedURL = 'https://docs.google.com/gview?url=' + encodeURIComponent(driveDownloadURL) + '&embedded=true';
   }
 
   // Show loading, hide iframe initially
