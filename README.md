@@ -220,9 +220,9 @@ Build new signed AAB → Upload to Play Console → Create new release
 | Class 12 | Rs 1,999 |
 
 ### Placeholder Contact Info (REPLACE THESE)
-- Phone: +91 98765 43210
-- Email: hello@sharmaclasses.edu
-- Address: 102-105 Excellence Plaza, New Delhi – 110001
+- Phone: +91 97203 02705
+- Email: rohitsharmaclasses.rsc@gmail.com
+- Address: Building No. 128, Street No. 05, Jahangirabad, Bulandshahr
 
 ---
 
